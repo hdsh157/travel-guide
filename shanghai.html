@@ -234,54 +234,67 @@ section:nth-child(odd) { background: var(--warm-bg); }
 .hero-skyline {
   position: absolute;
   bottom: 0;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1200px;
   height: 200px;
   pointer-events: none;
   z-index: 1;
-  opacity: 0.6;
+  opacity: 0.5;
 }
 .hero-skyline::before {
   content: '';
   position: absolute;
   bottom: 0;
-  left: 5%;
-  right: 5%;
+  left: 0;
+  right: 0;
   height: 2px;
   background: #6b2025;
   box-shadow:
-    20px -30px 0 0 #373749,
-    50px -55px 0 0 #6b2025,
-    80px -40px 0 0 #373749,
-    110px -70px 0 0 #373749,
-    140px -35px 0 0 #6b2025,
-    170px -90px 0 0 #373749,
-    200px -50px 0 0 #6b2025,
-    230px -80px 0 0 #373749,
-    260px -45px 0 0 #373749,
-    290px -65px 0 0 #6b2025,
-    320px -38px 0 0 #373749,
-    350px -95px 0 0 #6b2025,
-    380px -55px 0 0 #373749,
-    410px -75px 0 0 #6b2025,
-    440px -42px 0 0 #373749,
-    470px -85px 0 0 #6b2025,
-    500px -52px 0 0 #373749,
-    530px -68px 0 0 #6b2025,
-    560px -88px 0 0 #373749,
-    590px -48px 0 0 #373749,
-    620px -72px 0 0 #6b2025,
-    650px -44px 0 0 #373749,
-    680px -92px 0 0 #6b2025,
-    710px -58px 0 0 #373749,
-    740px -78px 0 0 #6b2025,
-    770px -36px 0 0 #373749,
-    800px -60px 0 0 #6b2025,
-    830px -82px 0 0 #373749,
-    860px -46px 0 0 #6b2025,
-    890px -66px 0 0 #373749,
-    920px -94px 0 0 #6b2025,
-    950px -40px 0 0 #373749;
+    0px -25px 0 0 #373749,
+    25px -45px 0 0 #6b2025,
+    50px -30px 0 0 #373749,
+    80px -60px 0 0 #373749,
+    105px -28px 0 0 #6b2025,
+    130px -75px 0 0 #373749,
+    155px -42px 0 0 #6b2025,
+    185px -65px 0 0 #373749,
+    210px -35px 0 0 #373749,
+    240px -55px 0 0 #6b2025,
+    265px -80px 0 0 #6b2025,
+    290px -32px 0 0 #373749,
+    320px -68px 0 0 #6b2025,
+    345px -50px 0 0 #373749,
+    375px -85px 0 0 #6b2025,
+    400px -40px 0 0 #373749,
+    430px -72px 0 0 #6b2025,
+    455px -58px 0 0 #373749,
+    485px -92px 0 0 #6b2025,
+    510px -44px 0 0 #373749,
+    540px -78px 0 0 #6b2025,
+    565px -34px 0 0 #373749,
+    595px -62px 0 0 #6b2025,
+    620px -48px 0 0 #373749,
+    650px -88px 0 0 #6b2025,
+    675px -38px 0 0 #373749,
+    705px -70px 0 0 #6b2025,
+    730px -54px 0 0 #373749,
+    760px -82px 0 0 #6b2025,
+    785px -46px 0 0 #373749,
+    815px -64px 0 0 #6b2025,
+    840px -36px 0 0 #373749,
+    870px -76px 0 0 #6b2025,
+    895px -52px 0 0 #373749,
+    925px -90px 0 0 #6b2025,
+    950px -42px 0 0 #373749,
+    980px -66px 0 0 #6b2025,
+    1005px -84px 0 0 #373749,
+    1030px -48px 0 0 #6b2025,
+    1060px -74px 0 0 #373749,
+    1085px -56px 0 0 #6b2025,
+    1115px -38px 0 0 #373749,
+    1140px -70px 0 0 #6b2025;
 }
 
 .hero-water {
@@ -292,6 +305,7 @@ section:nth-child(odd) { background: var(--warm-bg); }
   position: relative;
   z-index: 2;
   max-width: 700px;
+  padding: 0 1rem;
 }
 .hero-badge {
   display: inline-block;
