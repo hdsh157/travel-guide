@@ -1,0 +1,2539 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>南京穷游攻略 · 大学生版 | 2026最全省钱指南</title>
+<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/leaflet/1.9.4/leaflet.css" onerror="this.onerror=null;this.href='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css';" />
+<script src="https://cdn.bootcdn.net/ajax/libs/leaflet/1.9.4/leaflet.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js';document.head.appendChild(s);"></script>
+<script src="https://cdn.bootcdn.net/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" onerror="this.onerror=null;var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';document.head.appendChild(s);"></script>
+<style>
+/* ====== Reset & Base ====== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", sans-serif;
+  background: #f5f0eb;
+  color: #3e3232;
+  line-height: 1.7;
+}
+
+/* ====== Navigation ====== */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: rgba(255,255,255,0.94);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  padding: 0 40px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+nav .logo { font-size: 1.3rem; font-weight: 700; color: #1a5276; letter-spacing: 2px; }
+nav .nav-links { display: flex; gap: 22px; list-style: none; flex-wrap: wrap; }
+nav .nav-links a {
+  text-decoration: none; color: #555; font-size: 0.88rem;
+  transition: color 0.2s; padding: 4px 0; white-space: nowrap;
+}
+nav .nav-links a:hover { color: #1a5276; }
+
+/* Hamburger menu */
+.hamburger { display: none; background: none; border: none; font-size: 1.6rem; cursor: pointer; color: #5d2e2e; padding: 6px; line-height: 1; }
+@media (max-width: 768px) {
+  .hamburger { display: block; }
+  nav .nav-links {
+    display: none; position: fixed; top: 64px; left: 0; right: 0;
+    background: rgba(255,255,255,0.98); backdrop-filter: blur(14px);
+    flex-direction: column; gap: 0; padding: 4px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    max-height: 70vh; overflow-y: auto; box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    z-index: 999;
+  }
+  nav .nav-links.open { display: flex; }
+  nav .nav-links a { padding: 13px 20px; border-bottom: 1px solid #f0ebe0; font-size: 0.9rem; }
+}
+
+/* ====== Hero ====== */
+.hero {
+  min-height: 100vh;
+  background: linear-gradient(160deg, #0a0a1a 0%, #101a2d 30%, #1a2a3e 60%, #1a1a2e 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; color: #fff; padding: 100px 20px 60px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(180,120,60,0.15) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 20%, rgba(255,255,255,0.05) 0%, transparent 50%);
+}
+.hero h1 {
+  font-size: 3.8rem; font-weight: 900; letter-spacing: 10px;
+  position: relative; z-index: 1;
+  background: linear-gradient(180deg, #fff 0%, #d4a574 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero .subtitle {
+  font-size: 1.2rem; color: rgba(255,255,255,0.7); margin-top: 16px;
+  letter-spacing: 6px; position: relative; z-index: 1;
+}
+.hero-stats { display: flex; gap: 40px; margin-top: 36px; position: relative; z-index: 1; }
+.hero-stat { text-align: center; }
+.hero-stat .num { font-size: 2rem; font-weight: 700; color: #d4a574; }
+.hero-stat .label { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-top: 4px; }
+.hero .scroll-hint {
+  position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+  color: rgba(255,255,255,0.5); font-size: 0.85rem;
+  animation: bounce 2s infinite; cursor: pointer;
+}
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(10px); }
+}
+
+/* ====== Section Common ====== */
+section { padding: 80px 40px; max-width: 1200px; margin: 0 auto; }
+.section-title {
+  text-align: center; font-size: 2rem; font-weight: 700;
+  color: #5d2e2e; margin-bottom: 12px; letter-spacing: 3px;
+}
+.section-subtitle {
+  text-align: center; color: #888; margin-bottom: 50px; font-size: 0.95rem;
+}
+
+/* ====== Planner Section ====== */
+#planner {
+  background: #fff; border-radius: 20px; margin: -60px auto 0;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.1); position: relative; z-index: 10;
+  padding: 50px 50px 40px;
+}
+.planner-intro { display: flex; gap: 24px; margin-bottom: 30px; flex-wrap: wrap; }
+.planner-feature {
+  flex: 1; min-width: 200px; display: flex; align-items: center; gap: 12px;
+  padding: 16px; background: #fdfaf7; border-radius: 10px;
+}
+.planner-feature .pf-icon { font-size: 1.8rem; }
+.planner-feature .pf-text { font-size: 0.85rem; color: #666; }
+.planner-feature .pf-text strong { color: #5d2e2e; display: block; font-size: 0.93rem; }
+
+.planner-form { display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end; }
+.form-group { flex: 1; min-width: 140px; }
+.form-group label {
+  display: block; font-size: 0.85rem; color: #888; margin-bottom: 6px; font-weight: 500;
+}
+.form-group select, .form-group input {
+  width: 100%; padding: 12px 16px; border: 2px solid #e8e0d8;
+  border-radius: 10px; font-size: 1rem; background: #faf8f6;
+  outline: none; transition: border-color 0.2s; font-family: inherit;
+}
+.form-group select:focus, .form-group input:focus { border-color: #c9a87c; }
+
+.btn-generate {
+  padding: 14px 40px; background: linear-gradient(135deg, #1a5276, #c0392b);
+  color: #fff; border: none; border-radius: 10px; font-size: 1.05rem;
+  font-weight: 600; cursor: pointer; letter-spacing: 2px;
+  transition: transform 0.2s, box-shadow 0.2s; white-space: nowrap; font-family: inherit;
+}
+.btn-generate:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(139,0,0,0.3); }
+.btn-generate:active { transform: translateY(0); }
+
+/* Result */
+.result-container {
+  margin-top: 30px; display: none;
+  background: #fdfaf7; border-radius: 16px; padding: 36px;
+  border: 1px solid #e8e0d8;
+}
+.result-container.show { display: block; animation: fadeIn 0.5s; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.result-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid #e8e0d8;
+  flex-wrap: wrap; gap: 12px;
+}
+.result-header h3 { font-size: 1.4rem; color: #5d2e2e; }
+.result-header .price-tag { font-size: 1.6rem; font-weight: 700; color: #1a5276; }
+.result-header .price-tag span { font-size: 0.8rem; color: #999; font-weight: 400; }
+
+.cost-breakdown {
+  display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px;
+}
+.cost-item {
+  flex: 1; min-width: 100px; text-align: center;
+  padding: 14px; background: #fff; border-radius: 10px;
+}
+.cost-item .cost-num { font-size: 1.2rem; font-weight: 700; color: #1a5276; }
+.cost-item .cost-label { font-size: 0.78rem; color: #999; margin-top: 2px; }
+
+.day-card {
+  background: #fff; border-radius: 12px; padding: 20px 24px;
+  margin-bottom: 14px; border-left: 4px solid #c9a87c;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.day-card h4 { font-size: 1.1rem; color: #5d2e2e; margin-bottom: 8px; }
+.day-card .schedule { color: #666; font-size: 0.93rem; line-height: 1.8; }
+.day-card .day-cost { margin-top: 10px; font-size: 0.85rem; color: #c9a87c; font-weight: 500; display: flex; flex-wrap: wrap; gap: 12px; }
+
+.student-badge { display: inline-block; background: #27ae60; color: #fff; font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; margin-left: 4px; }
+.result-tips {
+  margin-top: 20px; padding: 16px 20px; background: #fff8f0;
+  border-radius: 10px; font-size: 0.9rem; color: #8b6914;
+  border-left: 3px solid #e8b84b;
+}
+.btn-export { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; }
+.btn-reset {
+  padding: 10px 24px;
+  background: transparent; color: #1a5276; border: 2px solid #1a5276;
+  border-radius: 8px; font-size: 0.9rem; cursor: pointer;
+  transition: all 0.2s; font-family: inherit;
+}
+.btn-reset:hover { background: #1a5276; color: #fff; }
+.btn-print {
+  padding: 10px 24px;
+  background: #5d2e2e; color: #fff; border: none;
+  border-radius: 8px; font-size: 0.9rem; cursor: pointer;
+  transition: all 0.2s; font-family: inherit;
+}
+.btn-print:hover { background: #1a5276; }
+
+/* ====== Map ====== */
+.map-container {
+  width: 100%; height: 420px; border-radius: 14px; overflow: hidden;
+  margin-bottom: 24px; border: 2px solid #e8e0d8; position: relative; z-index: 1;
+}
+.map-container .leaflet-container { height: 100%; width: 100%; border-radius: 12px; }
+.map-legend {
+  display: flex; gap: 16px; flex-wrap: wrap; margin-top: 8px; font-size: 0.78rem; color: #888;
+}
+.map-legend span { display: flex; align-items: center; gap: 4px; }
+.map-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.map-dot.start { background: #27ae60; }
+.map-dot.stop { background: #e74c3c; }
+.map-dot.end { background: #1a5276; }
+
+/* ====== Weather Badge ====== */
+.weather-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px; border-radius: 20px; font-size: 0.82rem;
+  margin-left: 8px; font-weight: 500;
+}
+.weather-badge.sunny { background: #fff8e1; color: #f57f17; }
+.weather-badge.cloudy { background: #f5f5f5; color: #616161; }
+.weather-badge.rainy { background: #e3f2fd; color: #1565c0; }
+.weather-badge.snowy { background: #e8eaf6; color: #4527a0; }
+.weather-badge .w-icon { font-size: 1.1rem; }
+.weather-loading { font-size: 0.78rem; color: #aaa; margin-left: 8px; }
+
+/* ====== Status Bar ====== */
+.status-bar {
+  display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 16px;
+  padding: 12px 18px; background: #fff; border-radius: 10px;
+  font-size: 0.8rem; border: 1px solid #e8e0d8;
+}
+.status-item { display: flex; align-items: center; gap: 6px; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.status-dot.online { background: #27ae60; animation: pulse-dot 2s infinite; }
+.status-dot.offline { background: #e74c3c; }
+.status-dot.static { background: #f39c12; }
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.status-item .s-label { color: #888; }
+.status-item .s-val { color: #5d2e2e; font-weight: 500; }
+
+/* Map permanent labels */
+.leaflet-tooltip.map-label {
+  background: rgba(0,0,0,0.72); color: #fff; border: none;
+  border-radius: 4px; font-size: 11px; padding: 2px 8px;
+  font-family: "Microsoft YaHei","PingFang SC",sans-serif;
+  white-space: nowrap;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+.leaflet-tooltip.map-label::before { display: none; }
+
+/* ====== Route flow animation ====== */
+@keyframes routeDashFlow {
+  to { stroke-dashoffset: -60; }
+}
+.route-flow {
+  animation: routeDashFlow 1.2s linear infinite;
+  filter: drop-shadow(0 0 3px rgba(139,0,0,0.4));
+}
+
+/* ====== Destinations ====== */
+.dest-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 24px;
+}
+.dest-card {
+  background: #fff; border-radius: 16px; overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.dest-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+.dest-img {
+  height: 180px; display: flex; align-items: center; justify-content: center;
+  font-size: 3.2rem; position: relative;
+}
+.dest-img .dest-tag {
+  position: absolute; top: 12px; right: 12px;
+  background: rgba(0,0,0,0.5); color: #fff; font-size: 0.7rem;
+  padding: 3px 10px; border-radius: 20px; letter-spacing: 1px;
+}
+.dest-body { padding: 20px 22px; }
+.dest-body h3 { font-size: 1.1rem; color: #5d2e2e; margin-bottom: 4px; }
+.dest-body .alt { font-size: 0.82rem; color: #888; margin-bottom: 8px; }
+.dest-body .desc { font-size: 0.88rem; color: #666; line-height: 1.7; margin-bottom: 10px; }
+.dest-body .meta-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
+.dest-body .ticket { font-size: 0.82rem; color: #c9a87c; font-weight: 600; }
+.dest-body .best-time { font-size: 0.78rem; color: #aaa; }
+
+/* ====== Routes ====== */
+.routes-grid { display: flex; flex-direction: column; gap: 20px; }
+.route-card {
+  background: #fff; border-radius: 16px; padding: 28px 32px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  display: flex; gap: 28px; align-items: flex-start;
+  transition: transform 0.3s; cursor: pointer;
+}
+.route-card:hover { transform: translateX(6px); }
+.route-badge {
+  flex-shrink: 0; width: 76px; height: 76px; border-radius: 50%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: #fff; font-weight: 700;
+}
+.route-badge .days { font-size: 1.4rem; }
+.route-badge .unit { font-size: 0.7rem; opacity: 0.9; }
+.route-info { flex: 1; }
+.route-info h3 { font-size: 1.15rem; color: #5d2e2e; margin-bottom: 4px; }
+.route-info .route-sub { font-size: 0.83rem; color: #888; margin-bottom: 10px; }
+.route-info .route-detail { font-size: 0.88rem; color: #666; line-height: 1.8; }
+.route-info .route-tags { margin-top: 10px; display: flex; gap: 8px; flex-wrap: wrap; }
+.route-tag {
+  font-size: 0.72rem; padding: 3px 10px; border-radius: 20px;
+  background: #fdfaf7; color: #c9a87c; border: 1px solid #e8e0d8;
+}
+.route-price { flex-shrink: 0; text-align: right; }
+.route-price .price { font-size: 1.5rem; font-weight: 700; color: #1a5276; }
+.route-price .unit { font-size: 0.8rem; color: #999; }
+
+/* ====== Price Table ====== */
+.price-section { background: #fff; border-radius: 16px; padding: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+.price-section h3 { font-size: 1.1rem; color: #5d2e2e; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid #f0ebe0; }
+.price-table { width: 100%; border-collapse: collapse; }
+.price-table th, .price-table td {
+  padding: 14px 16px; text-align: left; font-size: 0.9rem;
+  border-bottom: 1px solid #f0ebe0;
+}
+.price-table th { color: #1a5276; font-weight: 600; background: #fdfaf7; white-space: nowrap; }
+.price-table tr:hover td { background: #fdfaf7; }
+
+/* ====== Weather Chart ====== */
+.weather-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 12px;
+}
+.weather-month {
+  background: #fff; border-radius: 10px; padding: 16px 10px; text-align: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+.weather-month .mon { font-size: 0.85rem; font-weight: 600; color: #5d2e2e; }
+.weather-month .temp { font-size: 0.8rem; color: #888; margin: 4px 0; }
+.weather-month .rain { font-size: 0.7rem; color: #3498db; }
+.weather-month.best { border: 2px solid #c9a87c; }
+.weather-month.best .mon { color: #c9a87c; }
+.weather-month.best::after { content: "★"; display: block; color: #e8b84b; font-size: 0.7rem; margin-top: 4px; }
+.weather-note { margin-top: 16px; font-size: 0.82rem; color: #999; text-align: center; }
+
+/* ====== Festivals ====== */
+.fest-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+.fest-card {
+  background: #fff; border-radius: 12px; padding: 22px 24px;
+  box-shadow: 0 3px 15px rgba(0,0,0,0.04); border-left: 4px solid #e8b84b;
+}
+.fest-card h4 { font-size: 1rem; color: #5d2e2e; margin-bottom: 4px; }
+.fest-card .fest-date { font-size: 0.8rem; color: #c9a87c; margin-bottom: 6px; }
+.fest-card p { font-size: 0.85rem; color: #777; }
+
+/* ====== Food ====== */
+.food-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.food-card {
+  background: #fff; border-radius: 14px; padding: 24px;
+  box-shadow: 0 3px 15px rgba(0,0,0,0.04);
+  display: flex; gap: 16px; align-items: flex-start;
+}
+.food-icon { font-size: 2.5rem; flex-shrink: 0; }
+.food-info h4 { font-size: 1rem; color: #5d2e2e; margin-bottom: 2px; }
+.food-info .food-price { font-size: 0.8rem; color: #c9a87c; margin-bottom: 4px; }
+.food-info p { font-size: 0.82rem; color: #888; line-height: 1.6; }
+
+/* ====== Photo Spots ====== */
+.photo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.photo-card {
+  background: #fff; border-radius: 12px; padding: 20px 22px;
+  box-shadow: 0 3px 15px rgba(0,0,0,0.04);
+}
+.photo-card h4 { font-size: 0.95rem; color: #5d2e2e; margin-bottom: 2px; }
+.photo-card .photo-loc { font-size: 0.78rem; color: #c9a87c; margin-bottom: 6px; }
+.photo-card p { font-size: 0.82rem; color: #888; }
+
+/* ====== Tips ====== */
+.tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+.tip-card {
+  background: #fff; border-radius: 12px; padding: 28px 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04); text-align: center;
+}
+.tip-card .icon { font-size: 2.5rem; margin-bottom: 12px; }
+.tip-card h4 { font-size: 1rem; color: #5d2e2e; margin-bottom: 8px; }
+.tip-card p { font-size: 0.86rem; color: #777; line-height: 1.7; }
+
+/* ====== Transport Guide ====== */
+.transport-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+.transport-card {
+  background: #fff; border-radius: 14px; padding: 24px;
+  box-shadow: 0 3px 15px rgba(0,0,0,0.04);
+}
+.transport-card h4 { font-size: 1.05rem; color: #5d2e2e; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #f0ebe0; }
+.transport-card ul { list-style: none; }
+.transport-card li {
+  font-size: 0.88rem; color: #666; padding: 6px 0;
+  display: flex; justify-content: space-between;
+}
+.transport-card li .li-val { color: #5d2e2e; font-weight: 500; }
+
+/* ====== Shopping ====== */
+.shop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.shop-card {
+  background: #fff; border-radius: 12px; padding: 20px 22px;
+  box-shadow: 0 3px 15px rgba(0,0,0,0.04); text-align: center;
+}
+.shop-card .shop-icon { font-size: 2.2rem; margin-bottom: 8px; }
+.shop-card h4 { font-size: 0.95rem; color: #5d2e2e; margin-bottom: 4px; }
+.shop-card .shop-price { font-size: 0.8rem; color: #c9a87c; margin-bottom: 4px; }
+.shop-card p { font-size: 0.8rem; color: #888; }
+
+/* ====== FAQ Accordion ====== */
+.faq-item { margin-bottom: 10px; }
+.faq-q {
+  background: #fff; border-radius: 10px; padding: 16px 20px;
+  font-size: 0.95rem; font-weight: 600; color: #5d2e2e; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.faq-q::after { content: "▾"; color: #c9a87c; font-size: 1.2rem; transition: transform 0.3s; }
+.faq-q.open::after { transform: rotate(180deg); }
+.faq-a {
+  display: none; padding: 16px 20px; font-size: 0.88rem; color: #666;
+  background: #fdfaf7; border-radius: 0 0 10px 10px; line-height: 1.8;
+}
+.faq-a.show { display: block; }
+
+/* ====== Footer ====== */
+footer {
+  text-align: center; padding: 40px; color: #bbb; font-size: 0.85rem;
+  border-top: 1px solid #e8e0d8; margin-top: 40px;
+}
+footer a { color: #c9a87c; text-decoration: none; }
+
+/* ====== Print ====== */
+@media print {
+  nav, .hero, footer, #planner { display: none; }
+  body { background: #fff; }
+  section { padding: 20px; break-inside: avoid; }
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 768px) {
+  nav { padding: 0 16px; }
+  .hero { min-height: 80vh; padding: 80px 16px 50px; }
+  .hero h1 { font-size: 2rem; letter-spacing: 4px; }
+  .hero .subtitle { font-size: 0.85rem; letter-spacing: 3px; }
+  .hero-stats { gap: 16px; }
+  .hero-stat .num { font-size: 1.3rem; }
+  .hero-stat .label { font-size: 0.7rem; }
+  section { padding: 40px 14px; }
+  .section-title { font-size: 1.5rem; letter-spacing: 2px; }
+  .section-subtitle { font-size: 0.85rem; margin-bottom: 30px; }
+  #planner { padding: 24px 14px; margin: -40px 10px 0; border-radius: 16px; }
+  .planner-form { flex-direction: column; }
+  .planner-feature { min-width: 100%; }
+  .planner-intro { gap: 10px; }
+  .form-group { min-width: 100%; }
+  .form-group select, .form-group input { padding: 14px 16px; font-size: 16px; }
+  .btn-generate { width: 100%; padding: 16px; font-size: 1.1rem; }
+
+  .dest-grid { grid-template-columns: 1fr; gap: 16px; }
+  .dest-img { height: 150px; font-size: 2.5rem; }
+
+  .route-card { flex-direction: column; gap: 14px; padding: 20px; }
+  .route-badge { width: 60px; height: 60px; }
+  .route-badge .days { font-size: 1.2rem; }
+  .route-price { text-align: left; }
+  .route-price .price { font-size: 1.3rem; }
+
+  .price-section { padding: 20px 12px; }
+  .price-table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .price-table th, .price-table td { padding: 10px 8px; font-size: 0.78rem; white-space: nowrap; }
+
+  .map-container { height: 280px; }
+  .result-container { padding: 20px 14px; }
+  .result-header { flex-direction: column; align-items: flex-start; }
+  .cost-breakdown { gap: 8px; }
+  .cost-item { min-width: 60px; padding: 10px 6px; }
+  .cost-item .cost-num { font-size: 1rem; }
+  .day-card { padding: 14px 16px; }
+  .weather-badge { font-size: 0.72rem; margin-left: 0; margin-top: 4px; display: inline-flex; }
+
+  .food-grid { grid-template-columns: 1fr; }
+  .food-card { padding: 16px; }
+  .fest-list { grid-template-columns: 1fr; }
+  .photo-grid { grid-template-columns: 1fr; }
+  .tips-grid { grid-template-columns: 1fr; gap: 12px; }
+  .shop-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .transport-grid { grid-template-columns: 1fr; gap: 12px; }
+  .weather-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .weather-month { padding: 10px 4px; }
+
+  .status-bar { flex-direction: column; gap: 6px; padding: 10px 14px; }
+  .btn-export { flex-direction: column; }
+  .btn-reset, .btn-print { width: 100%; text-align: center; }
+
+  footer { padding: 30px 16px; font-size: 0.78rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ====== Navigation ====== -->
+<nav>
+  <div class="logo">🎒 南京穷游</div>
+  <button class="hamburger" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="菜单">☰</button>
+  <ul class="nav-links" onclick="this.classList.remove('open')">
+    <li><a href="#planner">智能规划</a></li>
+    <li><a href="#destinations">景点</a></li>
+    <li><a href="#routes">线路</a></li>
+    <li><a href="#pricing">费用</a></li>
+    <li><a href="#weather">天气</a></li>
+    <li><a href="#food">美食</a></li>
+    <li><a href="#transport">交通</a></li>
+    <li><a href="#festivals">节庆</a></li>
+    <li><a href="#photo">摄影</a></li>
+    <li><a href="#shopping">购物</a></li>
+    <li><a href="#tips">贴士</a></li>
+    <li><a href="#faq">问答</a></li>
+  </ul>
+</nav>
+
+<!-- ====== Hero ====== -->
+<header class="hero">
+  <h1>南京穷游 · 学生党专属</h1>
+  <p class="subtitle">人均500玩转金陵 · 高性价比不踩雷</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">免费+</div><div class="label">免费景点过半</div></div>
+    <div class="hero-stat"><div class="num">8</div><div class="label">穷游线路</div></div>
+    <div class="hero-stat"><div class="num">¥300</div><div class="label">最低总预算</div></div>
+    <div class="hero-stat"><div class="num">半价</div><div class="label">学生票优惠</div></div>
+  </div>
+  <div class="scroll-hint" onclick="document.getElementById('planner').scrollIntoView()">
+    ▼ 开始规划你的旅程
+  </div>
+</header>
+
+<!-- ====== Smart Planner ====== -->
+<section id="planner">
+  <h2 class="section-title">智能行程规划</h2>
+  <p class="section-subtitle">输入你的偏好，AI 为你自动生成专属南京攻略</p>
+
+  <div class="planner-intro">
+    <div class="planner-feature">
+      <div class="pf-icon">📊</div>
+      <div class="pf-text"><strong>8套穷游模板</strong>覆盖1-4天 · 学生党专属</div>
+    </div>
+    <div class="planner-feature">
+      <div class="pf-icon">💰</div>
+      <div class="pf-text"><strong>省钱攻略</strong>免费景点+学生票+青旅+街头小吃全攻略</div>
+    </div>
+    <div class="planner-feature">
+      <div class="pf-icon">🗺</div>
+      <div class="pf-text"><strong>学生优惠汇总</strong>半价门票清单+免费预约指南</div>
+    </div>
+  </div>
+
+  <div class="planner-form">
+    <div class="form-group">
+      <label>计划天数</label>
+      <select id="days">
+        <option value="1">1 天（特种兵）</option>
+        <option value="2" selected>2 天（周末游）</option>
+        <option value="3">3 天（小长假）</option>
+        <option value="4">4 天</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>人均预算</label>
+      <select id="budget">
+        <option value="budget" selected>极致穷游 ¥300-500</option>
+        <option value="mid">学生舒适 ¥500-800</option>
+        <option value="high">小资体验 ¥800-1,200</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>出行季节</label>
+      <select id="season">
+        <option value="spring">春季（3-5月）</option>
+        <option value="summer" selected>夏季（6-8月）</option>
+        <option value="autumn">秋季（9-11月）</option>
+        <option value="winter">冬季（12-2月）</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>出行人数</label>
+      <select id="people">
+        <option value="1">1 人（独行）</option>
+        <option value="2" selected>2 人（情侣/朋友）</option>
+        <option value="3">3 人</option>
+        <option value="4">4 人（家庭/小团）</option>
+        <option value="5">5 人</option>
+        <option value="6">6 人</option>
+        <option value="8">8 人（大团）</option>
+        <option value="10">10 人</option>
+        <option value="15">15 人</option>
+        <option value="20">20 人以上</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>出发日期</label>
+      <input type="date" id="startDate">
+    </div>
+    <div class="form-group">
+      <label>兴趣偏好</label>
+      <select id="interest">
+        <option value="classic" selected>经典必游</option>
+        <option value="food">吃遍金陵</option>
+        <option value="history">历史人文</option>
+        <option value="photo">拍照打卡</option>
+      </select>
+    </div>
+    <button class="btn-generate" onclick="generatePlan()">✨ 生成攻略</button>
+  </div>
+
+  <div id="bookingChecklist" style="display:none;max-width:900px;margin:16px auto 0;padding:16px 20px;background:#fff;border-radius:12px;border:2px solid #e67e22;font-size:0.88rem;line-height:2;">
+    <strong style="color:#e67e22;">📋 预约清单：</strong>出发前请确认以下景点已预约 →
+    <span style="background:#fef9e7;padding:2px 8px;border-radius:4px;margin:0 4px;">🏛 中山陵（小程序·免费）</span>
+    <span style="background:#fef9e7;padding:2px 8px;border-radius:4px;margin:0 4px;">🏛 南京博物院（小程序·免费）</span>
+    <span style="background:#fef9e7;padding:2px 8px;border-radius:4px;margin:0 4px;">🕊 纪念馆（公众号·免费）</span>
+    <br><span style="color:#888;font-size:0.78rem;">⚠ 以上三处必须提前1-7天预约！节假日名额秒光，建议凌晨蹲守放票。周一博物馆/纪念馆闭馆！</span>
+  </div>
+
+  <div class="result-container" id="result"></div>
+</section>
+
+<!-- ====== Destinations (12 spots) ====== -->
+<section id="destinations">
+  <h2 class="section-title">必去景点</h2>
+  <p class="section-subtitle">12 个精华目的地，覆盖钟山、秦淮、玄武、栖霞、雨花、江宁</p>
+
+  <div class="dest-grid">
+    <div class="dest-card">
+      <div class="dest-img" style="background:linear-gradient(135deg,#1a5276,#2980b9);"><span class="dest-tag">世界遗产</span>🏛</div>
+      <div class="dest-body">
+        <h3>中山陵</h3>
+        <div class="alt">玄武区 · 钟山风景区内</div>
+        <div class="desc">孙中山先生陵寝，中国近代建筑史上第一陵。392级台阶寓意深远，登顶可俯瞰整个南京城。免费开放，需提前预约。</div>
+        <div class="meta-row">
+          <span class="ticket">🎫 免费（需预约）</span>
+          <span class="best-time">⏰ 建议 3-4h</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dest-card">
+      <div class="dest-img" style="background:linear-gradient(135deg,#c0392b,#e74c3c);"><span class="dest-tag">必打卡</span>🏮</div>
+      <div class="dest-body">
+        <h3>夫子庙 · 秦淮河</h3>
+        <div class="alt">秦淮区 · 南京文化地标</div>
+        <div class="desc">中国四大文庙之一，十里秦淮的精华所在。夜泊秦淮近酒家，画舫穿过灯火阑珊，感受六朝金粉的繁华旧梦。江南贡院、乌衣巷不可错过。</div>
+        <div class="meta-row">
+          <span class="ticket">🎫 景区免费 / 大成殿30元</span>
+          <span class="best-time">⏰ 建议 3-4h（夜景尤佳）</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dest-card">
+      <div class="dest-img" style="background:linear-gradient(135deg,#2c3e50,#34495e);"><span class="dest-tag">国家一级</span>🏛</div>
+      <div class="dest-body">
+        <h3>南京博物院</h3>
+        <div class="alt">玄武区 · 中国三大博物馆之一</div>
+        <div class="desc">前身为国立中央博物院，藏品逾43万件。民国馆还原了整条民国街道，是独一无二的沉浸式体验。免费但需提前预约。</div>
+        <div class="meta-row">
+          <span class="ticket">🎫 免费（需预约）</span>
+          <span class="best-time">⏰ 建议 3-5h</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dest-card">
+      <div class="dest-img" style="background:linear-gradient(135deg,#6d4c41,#8d6e63);"><span class="dest-tag">世界遗产</span>🪦</div>
+      <div class="dest-body">
+        <h3>明孝陵</h3>
+        <div class="alt">玄武区 · 钟山风景区内</div>
+        <div class="desc">朱元璋与马皇后合葬陵寝，明清皇家第一陵。神道石刻群庄严肃穆，600年石象路秋色如画。与中山陵、灵谷寺构成钟山核心景区。</div>
+        <div class="meta-row">
+          <span class="ticket">🎫 70元（钟山联票100元）</span>
+          <span class="best-time">⏰ 建议 2-3h</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dest-card">
+      <div class="dest-img" style="background:linear-gradient(135deg,#4a235a,#7d3c98);"><span class="dest-tag">民国记忆</span>🏢</div>
+      <div class="dest-body">
+        <h3>总统府</h3>
+        <div class="alt">玄武区 · 中国近代史遗址博物馆</div>
+        <div class="desc">六百年的建筑群，从明代汉王府到太平天国天王府，再到民国总统府。一座总统府，半部中国近代史。中西合璧建筑风格独特。</div>
+        <div class="meta-row">
+          <span class="ticket">🎫 40元</span>
+          <span class="best-time">⏰ 建议 2-3h</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dest-card">
+      <div class="dest-img" style="background:linear-gradient(135deg,#0e6655,#1abc9c);"><span class="dest-tag">城市绿肺</span>🌿</div>
+      <div class="dest-body">
+        <h3>玄武湖公园</h3>
+        <div class="alt">玄武区 · 南京站对面</div>
+        <div class="desc">中国最大的皇家园林湖泊，六朝时期的皇家后花园。五洲分布，四季花海各有风情，可泛舟湖上远眺紫金山。免费开放。</div>
+        <div class="meta-row">
+          <span class="ticket">🎫 免费</span>
+          <span class="best-time">⏰ 建议 2-4h</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dest-card">
+      <div class="dest-img" style="background:linear-gradient(135deg,#5d2e2e,#8b4513);"><span class="dest-tag">勿忘历史</span>🕊</div>
+      <div class="dest-body">
+        <h3>侵华日军南京大屠杀遇难同胞纪念馆</h3>
+        <div class="alt">建邺区 · 世界记忆遗产</div>
+        <div class="desc">铭记民族苦难的庄严场所。灰色砾石广场、遇难者名单墙、"万人坑"遗址，每一处都震撼心灵。在这里读懂和平的珍贵。</div>
+        <div class="meta-row">
+          <span class="ticket">🎫 免费（需预约）</span>
+          <span class="best-time">⏰ 建议 2-3h</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dest-card">
+      <div class="dest-img" style="background:linear-gradient(135deg,#d35400,#f39c12);"><span class="dest-tag">千年古刹</span>🛕</div>
+      <div class="dest-body">
+        <h3>鸡鸣寺</h3>
+        <div class="alt">玄武区 · "南朝四百八十寺"之首</div>
+        <div class="desc">始建于西晋，南京最古老的梵刹之一。每年3月下旬樱花盛开，古寺与樱花同框惊艳全城。登药师佛塔可远眺玄武湖和紫金山。</div>
+        <div class="meta-row">
+          <span class="ticket">🎫 10元（含三炷香）</span>
+          <span class="best-time">⏰ 3-4月樱花季 / 建议 1-2h</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dest-card">
+      <div class="dest-img" style="background:linear-gradient(135deg,#1b4f72,#2471a3);"><span class="dest-tag">明代遗存</span>🏯</div>
+      <div class="dest-body">
+        <h3>中华门瓮城</h3>
+        <div class="alt">秦淮区 · 世界规模最大的瓮城</div>
+        <div class="desc">明代南京城墙13座城门中保存最完好的一座。27个藏兵洞可屯兵三千，设计巧夺天工。登上城墙可沿明城墙徒步至老门东。</div>
+        <div class="meta-row">
+          <span class="ticket">🎫 50元</span>
+          <span class="best-time">⏰ 建议 1-2h</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dest-card">
+      <div class="dest-img" style="background:linear-gradient(135deg,#7d3c98,#c0392b);"><span class="dest-tag">秋色天花板</span>🍁</div>
+      <div class="dest-body">
+        <h3>栖霞山</h3>
+        <div class="alt">栖霞区 · 中国四大赏枫胜地</div>
+        <div class="desc">"春牛首，秋栖霞"。每年11月中下旬，满山红枫与千年栖霞古寺交相辉映，是中国最美的秋色之一。千佛岩石窟群也是南朝佛教艺术珍品。</div>
+        <div class="meta-row">
+          <span class="ticket">🎫 旺季40元 / 淡季25元</span>
+          <span class="best-time">⏰ 11月中下旬 / 建议半天</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dest-card">
+      <div class="dest-img" style="background:linear-gradient(135deg,#0d3b3b,#148f77);"><span class="dest-tag">佛教圣地</span>🙏</div>
+      <div class="dest-body">
+        <h3>牛首山文化旅游区</h3>
+        <div class="alt">江宁区 · 释迦牟尼佛顶骨舍利供奉地</div>
+        <div class="desc">佛顶宫穹顶之下供奉着世间唯一的佛顶骨舍利。千佛殿、万佛廊金碧辉煌，建筑本身就是一件艺术品。现代佛教建筑的巅峰之作。</div>
+        <div class="meta-row">
+          <span class="ticket">🎫 98元</span>
+          <span class="best-time">⏰ 建议 3-4h</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dest-card">
+      <div class="dest-img" style="background:linear-gradient(135deg,#2e4053,#5d6d7e);"><span class="dest-tag">老城南</span>🏘</div>
+      <div class="dest-body">
+        <h3>老门东历史文化街区</h3>
+        <div class="alt">秦淮区 · 南京老城南活化石</div>
+        <div class="desc">修缮后的老城南民居街区，比夫子庙更有烟火气。青砖小瓦马头墙，藏着最地道的南京小吃、文创手作和独立咖啡馆。</div>
+        <div class="meta-row">
+          <span class="ticket">🎫 免费</span>
+          <span class="best-time">⏰ 建议 2-3h</span>
+        </div>
+      </div>
+    </div>
+  </div>  </div>
+</section>
+
+<!-- ====== Routes (8 routes) ====== -->
+<section id="routes">
+  <h2 class="section-title">推荐旅游线路</h2>
+  <p class="section-subtitle">8 条精选线路，从1天到7天全覆盖</p>
+
+    <div class="route-card" onclick="quickPlan(1,'budget','classic')">
+      <div class="route-badge" style="background:linear-gradient(135deg,#1a5276,#2980b9);"><span class="days">1</span><span class="unit">天</span></div>
+      <div class="route-info">
+        <h3>南京经典一日游</h3>
+        <div class="route-sub">高效打卡 · 精华串联 · 适合过境旅客</div>
+        <div class="route-detail">
+          中山陵（上午）→ 明孝陵神道 → 总统府（下午）→ 南京博物院 → 夫子庙秦淮河夜景
+        </div>
+        <div class="route-tags"><span class="route-tag">经典</span><span class="route-tag">地标</span><span class="route-tag">夜景</span></div>
+      </div>
+      <div class="route-price"><div class="price">¥300<span class="unit">起/人</span></div></div>
+    </div>
+
+    <div class="route-card" onclick="quickPlan(2,'mid','classic')">
+      <div class="route-badge" style="background:linear-gradient(135deg,#c0392b,#e74c3c);"><span class="days">2</span><span class="unit">天</span></div>
+      <div class="route-info">
+        <h3>南京经典两日游</h3>
+        <div class="route-sub">最受欢迎 · 钟山+秦淮+民国 · 经典不踩雷</div>
+        <div class="route-detail">
+          D1 中山陵 → 明孝陵 → 灵谷寺 → 南京博物院（民国馆）→ 夫子庙秦淮画舫夜游<br>
+          D2 纪念馆（上午，需预约）→ 总统府 → 鸡鸣寺 → 玄武湖 → 老门东
+        </div>
+        <div class="route-tags"><span class="route-tag">最热门</span><span class="route-tag">民国风情</span><span class="route-tag">秦淮夜泊</span></div>
+      </div>
+      <div class="route-price"><div class="price">¥800<span class="unit">起/人</span></div></div>
+    </div>
+
+    <div class="route-card" onclick="quickPlan(3,'mid','classic')">
+      <div class="route-badge" style="background:linear-gradient(135deg,#0e6655,#1abc9c);"><span class="days">3</span><span class="unit">天</span></div>
+      <div class="route-info">
+        <h3>南京深度三日游</h3>
+        <div class="route-sub">深度玩家首选 · 六朝+民国+秦淮全覆盖</div>
+        <div class="route-detail">
+          D1 中山陵 → 明孝陵 → 灵谷寺 → 南京博物院 → 夫子庙秦淮河夜景<br>
+          D2 总统府 → 六朝博物馆 → 鸡鸣寺 → 明城墙（台城段）→ 玄武湖<br>
+          D3 纪念馆 → 老门东 → 中华门瓮城 → 先锋书店 → 返程
+        </div>
+        <div class="route-tags"><span class="route-tag">深度</span><span class="route-tag">历史</span><span class="route-tag">文艺</span></div>
+      </div>
+      <div class="route-price"><div class="price">¥1,200<span class="unit">起/人</span></div></div>
+    </div>
+
+    <div class="route-card" onclick="quickPlan(3,'mid','history')">
+      <div class="route-badge" style="background:linear-gradient(135deg,#4a235a,#8e44ad);"><span class="days">3</span><span class="unit">天</span></div>
+      <div class="route-info">
+        <h3>寻访民国 · 历史深度游</h3>
+        <div class="route-sub">颐和路梧桐树下 · 一座总统府半部近代史</div>
+        <div class="route-detail">
+          D1 总统府 → 六朝博物馆 → 梅园新村 → 1912街区（民国建筑群夜景）<br>
+          D2 中山陵 → 美龄宫 → 灵谷寺 → 南京博物院民国馆<br>
+          D3 颐和路公馆区 → 先锋书店 → 下关火车主题园
+        </div>
+        <div class="route-tags"><span class="route-tag">民国</span><span class="route-tag">梧桐大道</span><span class="route-tag">近代史</span></div>
+      </div>
+      <div class="route-price"><div class="price">¥1,100<span class="unit">起/人</span></div></div>
+    </div>
+
+    <div class="route-card" onclick="quickPlan(4,'mid','nature')">
+      <div class="route-badge" style="background:linear-gradient(135deg,#27ae60,#2ecc71);"><span class="days">4</span><span class="unit">天</span></div>
+      <div class="route-info">
+        <h3>南京全景四日游</h3>
+        <div class="route-sub">钟山+秦淮+栖霞枫叶+牛首胜境 · 一网打尽</div>
+        <div class="route-detail">
+          D1 中山陵 → 明孝陵 → 南京博物院 → 夫子庙秦淮河<br>
+          D2 纪念馆（上午，需预约）→ 总统府 → 鸡鸣寺 → 玄武湖 → 老门东 → 中华门瓮城<br>
+          D3 栖霞山 → 燕子矶 → 新街口商圈<br>
+          D4 牛首山 → 江宁织造博物馆 → 返程
+        </div>
+        <div class="route-tags"><span class="route-tag">全景</span><span class="route-tag">秋季限定</span><span class="route-tag">佛教圣地</span></div>
+      </div>
+      <div class="route-price"><div class="price">¥1,600<span class="unit">起/人</span></div></div>
+    </div>
+
+    <div class="route-card" onclick="quickPlan(5,'mid','family')">
+      <div class="route-badge" style="background:linear-gradient(135deg,#e67e22,#f39c12);"><span class="days">5</span><span class="unit">天</span></div>
+      <div class="route-info">
+        <h3>亲子休闲五日游</h3>
+        <div class="route-sub">寓教于乐 · 孩子友好 · 节奏轻松</div>
+        <div class="route-detail">
+          D1 南京博物院（恐龙+民国馆）→ 明故宫遗址公园<br>
+          D2 中山陵 → 音乐台（喂鸽子）→ 紫金山索道<br>
+          D3 红山森林动物园 → 玄武湖划船 → 先锋书店<br>
+          D4 中华门瓮城 → 老门东手作体验 → 夫子庙灯会<br>
+          D5 南京科技馆 → 返程
+        </div>
+        <div class="route-tags"><span class="route-tag">亲子</span><span class="route-tag">博物馆</span><span class="route-tag">动物园</span></div>
+      </div>
+      <div class="route-price"><div class="price">¥2,000<span class="unit">起/人</span></div></div>
+    </div>
+
+    <div class="route-card" onclick="quickPlan(5,'high','food')">
+      <div class="route-badge" style="background:linear-gradient(135deg,#c0392b,#e74c3c);"><span class="days">5</span><span class="unit">天</span></div>
+      <div class="route-info">
+        <h3>南京美食深度游</h3>
+        <div class="route-sub">以美食串联风景 · 从早吃到晚不重样</div>
+        <div class="route-detail">
+          D1 科巷早餐 → 总统府 → 新街口午餐 → 老门东下午茶 → 夫子庙夜市<br>
+          D2 李记清真馆锅贴 → 颐和路漫步 → 南师大周边小吃 → 先锋书店<br>
+          D3 鸡鸣寺素斋 → 玄武湖 → 明瓦廊小吃街 → 秦淮画舫<br>
+          D4 纪念馆（上午，需预约）→ 中山陵 → 南京大牌档（狮子桥）→ 湖南路夜市<br>
+          D5 三七八巷早市 → 中华门 → 老门东下午茶 → 返程
+        </div>
+        <div class="route-tags"><span class="route-tag">美食</span><span class="route-tag">探店</span><span class="route-tag">小吃</span></div>
+      </div>
+      <div class="route-price"><div class="price">¥1,800<span class="unit">起/人</span></div></div>
+    </div>
+
+    <div class="route-card" onclick="quickPlan(7,'high','history')">
+      <div class="route-badge" style="background:linear-gradient(135deg,#1a2a3e,#5d6d7e);"><span class="days">7</span><span class="unit">天</span></div>
+      <div class="route-info">
+        <h3>南京豪华深度七日游</h3>
+        <div class="route-sub">高端住宿 · 全程专车 · 六朝+明清+民国全覆盖</div>
+        <div class="route-detail">
+          D1 抵达南京 → 颐和路公馆区入住 → 先锋书店 → 秦淮画舫夜游<br>
+          D2 中山陵 → 美龄宫 → 明孝陵 → 灵谷寺素斋<br>
+          D3 南京博物院（全天深度）→ 明故宫 → 中山门城墙<br>
+          D4 总统府 → 六朝博物馆 → 鸡鸣寺 → 台城 → 玄武湖<br>
+          D5 栖霞山 → 燕子矶 → 幕燕滨江风光带<br>
+          D6 牛首山 → 南唐二陵 → 江宁织造博物馆<br>
+          D7 纪念馆 → 老门东午餐 → 返程
+        </div>
+        <div class="route-tags"><span class="route-tag">豪华</span><span class="route-tag">全覆盖</span><span class="route-tag">七天</span></div>
+      </div>
+      <div class="route-price"><div class="price">¥5,000<span class="unit">起/人</span></div></div>
+    </div>  </div>
+</section>
+
+<!-- ====== Pricing ====== -->
+<section id="pricing">
+  <h2 class="section-title">费用明细参考</h2>
+  <p class="section-subtitle">旺季（3-5月、9-11月）价格，淡季约8折。单人参考价，多人同行住宿交通可分摊</p>
+
+  <div class="price-section">
+    <h3>🏨 住宿参考（每晚）</h3>
+    <div class="price-table-wrapper"><table class="price-table">
+      <thead><tr><th>地区</th><th>经济型（青旅/快捷）</th><th>舒适型（三星/精品）</th><th>豪华型（四星/五星）</th><th>奢华型（颐和公馆等）</th></tr></thead>
+      <tbody>
+        <tr><td>新街口/市中心</td><td>150-280 元</td><td>350-600 元</td><td>700-1,500 元</td><td>1,800-3,500 元</td></tr>
+        <tr><td>夫子庙/秦淮区</td><td>120-250 元</td><td>300-500 元</td><td>600-1,200 元</td><td>1,500-2,500 元</td></tr>
+        <tr><td>玄武区（钟山附近）</td><td>150-300 元</td><td>350-650 元</td><td>700-1,500 元</td><td>2,000-4,000 元</td></tr>
+        <tr><td>鼓楼区</td><td>130-260 元</td><td>300-550 元</td><td>600-1,200 元</td><td>1,500-3,000 元</td></tr>
+        <tr><td>江宁区</td><td>100-200 元</td><td>220-400 元</td><td>400-800 元</td><td>800-1,500 元</td></tr>
+        <tr><td>栖霞区</td><td>100-180 元</td><td>200-380 元</td><td>400-700 元</td><td>—</td></tr>
+        <tr><td>浦口/江北新区</td><td>80-180 元</td><td>200-350 元</td><td>350-600 元</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="price-section" style="margin-top:20px;">
+    <h3>🚗 交通参考</h3>
+    <table class="price-table">
+      <thead><tr><th>项目</th><th>经济型</th><th>舒适型</th><th>豪华型</th></tr></thead>
+      <tbody>
+        <tr><td>高铁往返（北京↔南京）</td><td>二等座 443 元</td><td>一等座 746 元</td><td>商务座 1,399 元</td></tr>
+        <tr><td>高铁往返（上海↔南京）</td><td>二等座 145 元</td><td>一等座 230 元</td><td>商务座 438 元</td></tr>
+        <tr><td>飞机往返（视出发地）</td><td>500-1,500 元</td><td>1,000-2,500 元</td><td>公务舱 2,500-5,000 元</td></tr>
+        <tr><td>南京地铁（Metro）</td><td>2-9 元/次</td><td>—</td><td>—</td></tr>
+        <tr><td>出租车/网约车</td><td>起步价 11 元</td><td>50-120 元/天</td><td>专车 300-500 元/天</td></tr>
+        <tr><td>包车一日游</td><td>—</td><td>400-600 元/天</td><td>800-1,500 元/天</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="price-section" style="margin-top:20px;">
+    <h3>🍜 餐饮 & 其他费用</h3>
+    <table class="price-table">
+      <thead><tr><th>项目</th><th>经济型</th><th>舒适型</th><th>豪华型</th></tr></thead>
+      <tbody>
+        <tr><td>每日餐饮</td><td>60-120 元</td><td>150-300 元</td><td>400-800 元</td></tr>
+        <tr><td>导游服务（天）</td><td>拼团 80 元</td><td>私导 400-600 元</td><td>专家导 800-1,200 元</td></tr>
+        <tr><td>共享单车/地铁</td><td colspan="3">共享单车 1.5元/30分钟，地铁2-9元，公交2元</td></tr>
+        <tr><td>旅游保险（周）</td><td>15-30 元</td><td>40-80 元</td><td>100-200 元</td></tr>
+        <tr><td>秦淮画舫夜游</td><td>60 元（普通船）</td><td>100-150 元</td><td>200-300 元（VIP包船）</td></tr>
+        <tr><td>先锋书店文创</td><td colspan="3">明信片5-15元，笔记本30-80元，帆布袋50-150元</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="price-section" style="margin-top:20px;">
+    <h3>🎫 主要景点门票汇总</h3>
+    <table class="price-table">
+      <thead><tr><th>景点</th><th>成人票</th><th>学生/老人票</th><th>备注</th></tr></thead>
+      <tbody>
+        <tr><td>中山陵</td><td>免费</td><td>免费</td><td>需提前预约</td></tr>
+        <tr><td>明孝陵</td><td>70 元</td><td>35 元</td><td>钟山联票100元含中山陵+明孝陵+灵谷寺+音乐台</td></tr>
+        <tr><td>总统府</td><td>40 元</td><td>20 元</td><td>含六朝博物馆联票65元</td></tr>
+        <tr><td>南京博物院</td><td>免费</td><td>免费</td><td>需提前预约</td></tr>
+        <tr><td>夫子庙大成殿</td><td>30 元</td><td>15 元</td><td>秦淮画舫另购票60元起</td></tr>
+        <tr><td>中华门瓮城</td><td>50 元</td><td>25 元</td><td>含城墙徒步</td></tr>
+        <tr><td>鸡鸣寺</td><td>10 元</td><td>10 元</td><td>含三炷香</td></tr>
+        <tr><td>牛首山</td><td>98 元</td><td>49 元</td><td>含佛顶宫+佛顶寺</td></tr>
+        <tr><td>栖霞山</td><td>40 元（旺季）</td><td>20 元</td><td>淡季25元，11月枫叶季为旺季</td></tr>
+        <tr><td>玄武湖公园</td><td>免费</td><td>免费</td><td>划船另付费60-120元/小时</td></tr>
+        <tr><td>灵谷寺</td><td>35 元</td><td>17.5 元</td><td>含灵谷塔登塔</td></tr>
+        <tr><td>纪念馆</td><td>免费</td><td>免费</td><td>需提前预约，周一闭馆</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ====== Weather ====== -->
+<!-- ====== Weather ====== -->
+<section id="weather">
+  <h2 class="section-title">南京全年天气参考</h2>
+  <p class="section-subtitle">基于南京市多年平均数据——四季分明，夏季闷热多雨，冬季湿冷</p>
+
+  <div class="weather-grid">
+    <div class="weather-month"><div class="mon">1月</div><div class="temp">-1~7°C</div><div class="rain">降水 43mm</div></div>
+    <div class="weather-month"><div class="mon">2月</div><div class="temp">1~9°C</div><div class="rain">降水 55mm</div></div>
+    <div class="weather-month best"><div class="mon">3月</div><div class="temp">5~14°C</div><div class="rain">降水 85mm</div></div>
+    <div class="weather-month best"><div class="mon">4月</div><div class="temp">11~21°C</div><div class="rain">降水 95mm</div></div>
+    <div class="weather-month best"><div class="mon">5月</div><div class="temp">17~26°C</div><div class="rain">降水 100mm</div></div>
+    <div class="weather-month"><div class="mon">6月</div><div class="temp">21~29°C</div><div class="rain">降水 180mm</div></div>
+    <div class="weather-month"><div class="mon">7月</div><div class="temp">25~32°C</div><div class="rain">降水 215mm</div></div>
+    <div class="weather-month"><div class="mon">8月</div><div class="temp">24~32°C</div><div class="rain">降水 165mm</div></div>
+    <div class="weather-month best"><div class="mon">9月</div><div class="temp">20~27°C</div><div class="rain">降水 100mm</div></div>
+    <div class="weather-month best"><div class="mon">10月</div><div class="temp">14~22°C</div><div class="rain">降水 62mm</div></div>
+    <div class="weather-month best"><div class="mon">11月</div><div class="temp">7~15°C</div><div class="rain">降水 55mm</div></div>
+    <div class="weather-month"><div class="mon">12月</div><div class="temp">1~9°C</div><div class="rain">降水 32mm</div></div>
+  </div>
+  <p class="weather-note">★ 标记为最佳旅行月份。3-5月樱花盛开、温度宜人；9-11月秋高气爽、栖霞红叶最美；6-8月闷热多雨但适合夜游秦淮；12-2月湿冷但游客最少。</p>
+</section>
+
+<!-- ====== Transport Guide ====== -->
+<section id="transport">
+  <h2 class="section-title">抵达南京 · 交通攻略</h2>
+  <p class="section-subtitle">高铁最快、飞机便捷、自驾灵活 —— 三种方式全方位对比</p>
+
+  <div class="transport-grid">
+    <div class="transport-card">
+      <h4>🚄 高铁进南京（推荐）</h4>
+      <ul>
+        <li><span>主要出发城市</span><span class="li-val">上海/北京/杭州/武汉/合肥/济南</span></li>
+        <li><span>上海→南京</span><span class="li-val">最快1h，二等座145元</span></li>
+        <li><span>北京→南京</span><span class="li-val">约3.5h，二等座443元</span></li>
+        <li><span>杭州→南京</span><span class="li-val">约1.5h，二等座120元</span></li>
+        <li><span>优点</span><span class="li-val">快捷舒适、准点率高、南京南站直达市区</span></li>
+        <li><span>两大高铁站</span><span class="li-val">南京南站（京沪/沪宁）、南京站（普速+城际）</span></li>
+        <li><span>购票</span><span class="li-val">12306提前15天，节假日尽早购票</span></li>
+      </ul>
+    </div>
+
+    <div class="transport-card">
+      <h4>✈ 飞机进南京</h4>
+      <ul>
+        <li><span>主要出发城市</span><span class="li-val">北京/广州/深圳/成都/重庆/昆明</span></li>
+        <li><span>飞行时间</span><span class="li-val">北京→南京 约2h</span></li>
+        <li><span>票价范围</span><span class="li-val">500-2,000元（经济舱）</span></li>
+        <li><span>优点</span><span class="li-val">适合远距离旅客，航班密集</span></li>
+        <li><span>缺点</span><span class="li-val">机场距市区较远（约40km）</span></li>
+        <li><span>机场交通</span><span class="li-val">地铁S1号线直达南京南站，机场大巴25元</span></li>
+        <li><span>南京禄口机场</span><span class="li-val">位于江宁区，到市中心约50分钟</span></li>
+      </ul>
+    </div>
+
+    <div class="transport-card">
+      <h4>🚙 自驾进南京</h4>
+      <ul>
+        <li><span>主要高速</span><span class="li-val">沪宁高速(G42)、宁杭高速(G25)、京沪高速(G2)</span></li>
+        <li><span>上海→南京</span><span class="li-val">约300km，全程高速约3.5h</span></li>
+        <li><span>费用</span><span class="li-val">高速费约120元/油费约150元</span></li>
+        <li><span>优点</span><span class="li-val">自由度高，可顺路游览周边城市</span></li>
+        <li><span>缺点</span><span class="li-val">市区停车难且贵（10-15元/小时）</span></li>
+        <li><span>建议</span><span class="li-val">车停酒店或地铁站P+R停车场，市内公交出行</span></li>
+        <li><span>限行提示</span><span class="li-val">南京长江大桥对外地牌照有限行规定</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Festivals ====== -->
+<section id="festivals">
+  <h2 class="section-title">南京节庆活动</h2>
+  <p class="section-subtitle">赶上节日，体验最地道的金陵文化</p>
+
+  <div class="fest-list">
+    <div class="fest-card">
+      <h4>🏮 秦淮灯会</h4>
+      <div class="fest-date">农历正月初一至正月十八（约公历 1-2 月）</div>
+      <p>中国规模最大的灯会之一，始于南朝，延续千年。夫子庙-秦淮河畔万盏花灯齐放，画舫穿行水上如入幻境。元宵节当晚达到高潮。</p>
+    </div>
+    <div class="fest-card">
+      <h4>🌸 鸡鸣寺樱花季</h4>
+      <div class="fest-date">3月中下旬-4月上旬</div>
+      <p>鸡鸣寺路两侧数百株樱花同时绽放，古寺黄墙与粉白樱花同框，是南京最具人气的春日盛景。建议清晨前往避开人潮。</p>
+    </div>
+    <div class="fest-card">
+      <h4>🍁 栖霞山红枫节</h4>
+      <div class="fest-date">11月中下旬-12月初</div>
+      <p>"春牛首，秋栖霞"——栖霞山是中国四大赏枫胜地之一。千年古寺与满山红枫交相辉映，五彩斑斓如打翻的调色盘。周末人流量极大。</p>
+    </div>
+    <div class="fest-card">
+      <h4>📚 南京读书节</h4>
+      <div class="fest-date">每年 4 月（世界读书日前后）</div>
+      <p>作为联合国"世界文学之都"，南京读书节期间各大书店举办签售、讲座、书展。先锋书店、大众书局是活动主场，爱书人的狂欢。</p>
+    </div>
+    <div class="fest-card">
+      <h4>🎭 南京文化艺术节</h4>
+      <div class="fest-date">每年 9-10 月</div>
+      <p>涵盖话剧、昆曲、民乐、现代舞等多元艺术形式。江苏大剧院、保利大剧院等场馆好戏连台，是文艺爱好者的饕餮盛宴。</p>
+    </div>
+    <div class="fest-card">
+      <h4>⛩ 夫子庙祭孔大典</h4>
+      <div class="fest-date">公历 9月28日（孔子诞辰）</div>
+      <p>在夫子庙大成殿举行庄严的祭孔仪式，身着传统汉服的古礼表演庄重肃穆。配合南京国学文化周，可深入了解儒家文化。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Photo Spots ====== -->
+<section id="photo">
+  <h2 class="section-title">摄影最佳机位</h2>
+  <p class="section-subtitle">拍出大片感的经典机位与拍摄时机</p>
+
+  <div class="photo-grid">
+    <div class="photo-card">
+      <h4>📷 中山陵博爱坊</h4>
+      <div class="photo-loc">玄武区 · 清晨/黄昏</div>
+      <p>从博爱坊向上仰望392级台阶与陵寝建筑，气势恢宏。清晨人少时拍摄光影最佳，秋冬薄雾时分更具历史沧桑感。长焦压缩台阶层次效果极佳。</p>
+    </div>
+    <div class="photo-card">
+      <h4>📷 秦淮河文德桥</h4>
+      <div class="photo-loc">夫子庙 · 日落后30分钟</div>
+      <p>经典秦淮夜景机位——两岸灯火倒映水中，画舫穿过桥洞，是南京最具辨识度的画面。建议携带三脚架长曝光，蓝调时刻拍摄色彩最饱满。</p>
+    </div>
+    <div class="photo-card">
+      <h4>📷 明孝陵石象路</h4>
+      <div class="photo-loc">钟山风景区 · 秋季</div>
+      <p>600年神道在秋日变身为"南京最美600米"。银杏金黄、枫树火红、石象斑驳——色彩层次极其丰富。11月中下旬清晨逆光拍摄最佳。</p>
+    </div>
+    <div class="photo-card">
+      <h4>📷 鸡鸣寺樱花大道</h4>
+      <div class="photo-loc">鸡鸣寺路 · 3-4月</div>
+      <p>古寺黄墙与粉白樱花同框，是南京春天最出片的机位。从解放门城墙俯拍可获得独特的空中视角。早上7点前人少。</p>
+    </div>
+    <div class="photo-card">
+      <h4>📷 台城（明城墙）</h4>
+      <div class="photo-loc">玄武区 · 黄昏时分</div>
+      <p>登台城可远眺紫金山、近观玄武湖、回望鸡鸣寺。夕阳下湖光山色与古城墙同框，是南京独有的城市天际线。广角镜头必备。</p>
+    </div>
+    <div class="photo-card">
+      <h4>📷 颐和路公馆区</h4>
+      <div class="photo-loc">鼓楼区 · 秋季午后</div>
+      <p>"一条颐和路，半部民国史"。法桐大道两侧遍布民国公馆，秋日满地金黄落叶，光影穿过法桐洒在黄墙红瓦上。人像和街拍的绝佳场地。</p>
+    </div>
+    <div class="photo-card">
+      <h4>📷 牛首山佛顶宫穹顶</h4>
+      <div class="photo-loc">江宁区 · 晴天的午后</div>
+      <p>佛顶宫穹顶在阳光下金光闪闪，极具视觉冲击力。内部千佛殿和万佛廊更是出片圣地。建议广角拍建筑全景+长焦拍细节。</p>
+    </div>
+    <div class="photo-card">
+      <h4>📷 栖霞寺红枫</h4>
+      <div class="photo-loc">栖霞区 · 11月中下旬</div>
+      <p>千年古寺的红墙+银杏+红枫三重奏。毗卢宝殿前、舍利塔旁、千佛岩边是最佳机位。清晨薄雾时氛围最佳，周末人极多建议工作日前往。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Food ====== -->
+<section id="food">
+  <h2 class="section-title">金陵美食指南</h2>
+  <p class="section-subtitle">不可错过的南京特色美食与老字号推荐</p>
+
+  <div class="food-grid">
+    <div class="food-card">
+      <div class="food-icon">🦆</div>
+      <div class="food-info">
+        <h4>盐水鸭（南京板鸭）</h4>
+        <div class="food-price">¥30-60 / 半只</div>
+        <p>南京第一名片！桂花鸭最为出名，皮白肉红、鲜嫩不腻。推荐：韩复兴（百年老字号）、金宏兴鸭子店（排队王）、章云板鸭。真空包装可带回家。</p>
+      </div>
+    </div>
+    <div class="food-card">
+      <div class="food-icon">🍜</div>
+      <div class="food-info">
+        <h4>鸭血粉丝汤</h4>
+        <div class="food-price">¥15-30 / 碗</div>
+        <p>南京最具代表性的街头小吃！鸭血嫩滑、粉丝Q弹、鸭胗鸭肝鸭肠满满一碗，汤头鲜美无比。推荐：回味鸭血粉丝汤（连锁）、小潘记、鸭得堡。</p>
+      </div>
+    </div>
+    <div class="food-card">
+      <div class="food-icon">🥟</div>
+      <div class="food-info">
+        <h4>牛肉锅贴</h4>
+        <div class="food-price">¥12-18 / 两（5个）</div>
+        <p>南京人的灵魂早餐！底部金黄酥脆、肉馅鲜嫩多汁，咬一口汤汁四溢。推荐：李记清真馆（打钉巷，排队标杆）、草桥清真牛肉锅贴。</p>
+      </div>
+    </div>
+    <div class="food-card">
+      <div class="food-icon">🥟</div>
+      <div class="food-info">
+        <h4>南京小笼包 / 汤包</h4>
+        <div class="food-price">¥15-30 / 笼</div>
+        <p>与上海小笼不同，南京汤包皮更薄、汤更多，褶子朝下。推荐：鸡鸣汤包（百年传承）、尹氏汤包、刘长兴。吃法："轻轻提、慢慢移、先开窗、后喝汤"。</p>
+      </div>
+    </div>
+    <div class="food-card">
+      <div class="food-icon">🍜</div>
+      <div class="food-info">
+        <h4>皮肚面</h4>
+        <div class="food-price">¥15-25 / 碗</div>
+        <p>南京独有的面食——炸猪皮（皮肚）吸满汤汁，配上猪肝、肉丝、木耳、青菜，一大碗扎实管饱。推荐：易记皮肚面（明瓦廊）、巴子面馆、项记面馆。</p>
+      </div>
+    </div>
+    <div class="food-card">
+      <div class="food-icon">🍡</div>
+      <div class="food-info">
+        <h4>秦淮八绝</h4>
+        <div class="food-price">¥50-100 / 套</div>
+        <p>夫子庙秦淮小吃精华组合：永和园的开洋干丝、六凤居的豆腐涝、奇芳阁的鸭油酥烧饼、蒋有记的牛肉锅贴等八家老字号。一套尝遍南京味。</p>
+      </div>
+    </div>
+    <div class="food-card">
+      <div class="food-icon">🍵</div>
+      <div class="food-info">
+        <h4>雨花茶 / 南京板鸭</h4>
+        <div class="food-price">雨花茶 ¥50-200/斤</div>
+        <p>中国十大名茶之一，形似松针翠绿挺拔，口感清香甘醇。产自南京雨花台及周边。推荐在中山陵茶厂或老门东茶叶店购买。</p>
+      </div>
+    </div>
+    <div class="food-card">
+      <div class="food-icon">🍚</div>
+      <div class="food-info">
+        <h4>桂花糖芋苗 / 赤豆元宵</h4>
+        <div class="food-price">¥10-18 / 碗</div>
+        <p>南京传统甜品。桂花糖芋苗软糯香甜，赤豆元宵浓稠温暖，秋天来一碗最治愈。推荐：莲湖糕团店（夫子庙）、芳婆糕团店（王府大街）。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Shopping ====== -->
+<section id="shopping">
+  <h2 class="section-title">购物指南</h2>
+  <p class="section-subtitle">伴手礼买什么？去哪买？多少钱？</p>
+
+  <div class="shop-grid">
+    <div class="shop-card">
+      <div class="shop-icon">🦆</div>
+      <h4>盐水鸭 / 板鸭</h4>
+      <div class="shop-price">¥40-100 / 只</div>
+      <p>南京必带伴手礼第一名！韩复兴、桂花鸭旗舰店有真空包装，可保存数月。推荐买整只回家，自己切比预切更鲜。</p>
+    </div>
+    <div class="shop-card">
+      <div class="shop-icon">☁</div>
+      <h4>云锦</h4>
+      <div class="shop-price">¥200-10,000+</div>
+      <p>"寸锦寸金"的世界非遗，南京最珍贵的传统手工艺。推荐去云锦博物馆选购真品丝巾、挂件、桌旗。老门东有云锦体验工坊。</p>
+    </div>
+    <div class="shop-card">
+      <div class="shop-icon">🥜</div>
+      <h4>雨花石</h4>
+      <div class="shop-price">¥10-500+</div>
+      <p>南京特有天然玛瑙石，花纹独特每块都是孤品。夫子庙、朝天宫古玩市场可淘，从几块钱的纪念品到上千的收藏级都有。</p>
+    </div>
+    <div class="shop-card">
+      <div class="shop-icon">🍵</div>
+      <h4>雨花茶</h4>
+      <div class="shop-price">¥50-500 / 斤</div>
+      <p>中国十大名茶之一，形似松针、翠绿挺拔。推荐在中山陵茶厂直营店或老门东茶叶铺购买，清明前茶品质最佳。</p>
+    </div>
+    <div class="shop-card">
+      <div class="shop-icon">📿</div>
+      <h4>金陵折扇</h4>
+      <div class="shop-price">¥30-300</div>
+      <p>明代起源的南京传统手工艺，竹骨纸面精工细作。夫子庙和老门东有手工艺人现场制作，扇面可定制题字。</p>
+    </div>
+    </div>
+    <div class="shop-card">
+      <div class="shop-icon">🏺</div>
+      <h4>金陵金箔</h4>
+      <div class="shop-price">¥50-1,000+</div>
+      <p>南京金箔锻制技艺是国家非遗，故宫金銮殿所用金箔即出自南京。金箔工艺品、金箔画是体面的伴手礼。龙潭金箔博物馆可参观制作过程。</p>
+    </div>
+    <div class="shop-card">
+      <div class="shop-icon">📚</div>
+      <h4>先锋书店文创</h4>
+      <div class="shop-price">¥20-200</div>
+      <p>多次入选"全球最美书店"。先锋自主设计的明信片、帆布袋、笔记本以南京为主题，文艺范十足。五台山总店、老门东骏惠书屋分店可购。</p>
+    </div>
+    <div class="shop-card">
+      <div class="shop-icon">🍰</div>
+      <h4>状元糕 / 绿豆糕</h4>
+      <div class="shop-price">¥20-60 / 盒</div>
+      <p>江南贡院旁的夫子庙糕团店售卖状元糕，寓意金榜题名。莲湖糕团店的桂花糕、绿豆糕是南京人的童年味道。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====== Tips ====== -->
+<section id="tips">
+  <h2 class="section-title">出行贴士</h2>
+  <p class="section-subtitle">做好万全准备，旅途更安心</p>
+
+  <div class="tips-grid">
+    <div class="tip-card">
+      <div class="icon">📱</div>
+      <h4>预约提醒</h4>
+      <p>南京博物院、中山陵、纪念馆等热门景点免费但<b>必须提前预约</b>！尤其是节假日名额秒光。关注各景区微信公众号，提前3-7天放票。周一多数博物馆闭馆。</p>
+    </div>
+    <div class="tip-card">
+      <div class="icon">👘</div>
+      <h4>穿衣指南</h4>
+      <p>南京四季分明。春季（15-25°C）薄外套+长袖；夏季（28-36°C）短袖+防晒衣+遮阳伞；秋季（10-22°C）夹克+薄毛衣，栖霞山赏枫需带厚外套；冬季（-5~8°C）羽绒服+保暖内衣，湿冷需防寒。</p>
+    </div>
+    <div class="tip-card">
+      <div class="icon">🚇</div>
+      <h4>交通建议</h4>
+      <p>南京地铁是目前最便捷的出行方式，28条线路覆盖所有核心景点。下载"与宁同行"App刷码乘车。出租车起步价11元，网约车也很方便。钟山风景区建议坐观光车（10元/次），步行太累。</p>
+    </div>
+    <div class="tip-card">
+      <div class="icon">🍂</div>
+      <h4>最佳旅行时间</h4>
+      <p><b>黄金期：3-5月</b>（樱花盛开）和<b>9-11月</b>（秋高气爽+栖霞红叶）。3月下旬-4月上旬鸡鸣寺樱花最盛。11月中下旬栖霞山枫叶最美的两个周末。6-8月闷热但适合夜游。</p>
+    </div>
+    <div class="tip-card">
+      <div class="icon">🏨</div>
+      <h4>住宿选址建议</h4>
+      <p><b>首推新街口/大行宫</b>——地铁1/2/3号线交汇，吃喝玩乐方便；<b>夫子庙秦淮区</b>——夜景绝佳但偏贵；<b>玄武湖畔</b>——安静环境好；<b>钟山脚下</b>——适合度假休闲。节假日房价翻倍，尽早预订。</p>
+    </div>
+    <div class="tip-card">
+      <div class="icon">💊</div>
+      <h4>必备物品清单</h4>
+      <p>身份证（很多景点实名预约）、充电宝、舒适的步行鞋（南京景点大、走路多）、折叠伞、防晒霜（夏天）、保温杯。下载高德地图/百度地图导航、大众点评找美食。备少量现金（部分老字号小摊需要）。</p>
+    </div>
+    <div class="tip-card">
+      <div class="icon">⚠</div>
+      <h4>避坑提示</h4>
+      <p>夫子庙景区内的小吃价格偏高，建议去附近三七八巷、老门东吃地道美食。秦淮河画舫建议选天黑后乘坐，灯光效果最佳。不要在景区门口买黄牛票。夏季防蚊虫，带好驱蚊用品。</p>
+    </div>
+    <div class="tip-card">
+      <div class="icon">📿</div>
+      <h4>文化礼仪</h4>
+      <p>参观纪念馆保持肃静，勿大声喧哗、勿拍照（部分展区禁拍）。进入寺庙脱帽、勿踩门槛。牛首山佛顶宫女士勿穿短裙短裤。中山陵392级台阶忌嬉戏打闹。夫子庙大成殿可行鞠躬礼。</p>
+    </div>
+    <div class="tip-card">
+      <div class="icon">🚑</div>
+      <h4>医疗应急</h4>
+      <p>南京医疗资源充裕：鼓楼医院（三甲，市中心）、江苏省人民医院（三甲）、南京市第一医院（三甲）。紧急救援电话：120（医疗）/ 110（公安）/ 12345（市民服务热线）。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FAQ ====== -->
+<section id="faq">
+  <h2 class="section-title">常见问题</h2>
+  <p class="section-subtitle">第一次去南京最关心的问题</p>
+
+  <div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show')">南京玩几天比较合适？</div>
+    <div class="faq-a">市区核心景点（中山陵+夫子庙+总统府+博物院）2-3天即可。如果要加上栖霞山（半天）、牛首山（半天）、钟山全境（1天），建议安排4-5天。深度游含老门东、颐和路、先锋书店等文艺地标，7天也不嫌多。</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show')">南京旅游最佳季节？</div>
+    <div class="faq-a">春季（3-5月）和秋季（9-11月）最舒适。3月底-4月初鸡鸣寺樱花是最大亮点。11月中下旬栖霞山红枫绝美。夏季（6-8月）闷热多雨但夜游秦淮很棒。冬季（12-2月）湿冷，但梅花山赏梅+温泉是不错的选择。</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show')">南京住宿选哪个区域？</div>
+    <div class="faq-a">首推新街口/大行宫——地铁枢纽，到哪都方便，周边商场餐厅密集。其次夫子庙秦淮区——出门就是景区，夜景绝佳，但价格偏高。玄武湖附近安静环境好。预算有限可选南京站/鼓楼附近，性价比高交通也便利。</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show')">南京博物院和南京博物馆有什么区别？</div>
+    <div class="faq-a">很多游客搞混！<b>南京博物院</b>（简称"南博"）是中国三大博物馆之一，免费，位于中山东路，需提前预约。<b>南京博物馆</b>在朝天宫，是南京市属博物馆，门票25元。一般推荐优先去南博，规模大很多。</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show')">去南京需要提前预约什么？</div>
+    <div class="faq-a">中山陵、南京博物院、纪念馆都需要<b>免费预约</b>。节假日名额很抢手，建议提前3-7天在微信公众号预约。中山陵可在"钟山风景区"小程序预约，南博在"南京博物院"小程序预约。</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show')">南京消费水平怎么样？</div>
+    <div class="faq-a">南京消费与二线城市相当，人均餐饮60-150元/天可以吃得很好。住宿丰俭由人：青旅80-150元，经济酒店200-400元，五星级800-1500元。多数景点门票在50元以内。地铁出行一天不超过20元。不带购物，人均500-800元/天是舒适的预算。</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show')">南京有什么必吃的美食？</div>
+    <div class="faq-a">盐水鸭、鸭血粉丝汤、牛肉锅贴、南京汤包、皮肚面是"五大必吃"。李记清真馆的锅贴、小潘记的鸭血粉丝汤、金宏兴的鸭子是本地人排队也要吃的店。夫子庙小吃偏贵，建议去三七八巷、科巷、明瓦廊找地道美食。</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('show')">南京交通方便吗？需要租车吗？</div>
+    <div class="faq-a">南京地铁网络非常完善，所有核心景点都有地铁站。强烈不建议在市区自驾——停车贵（10-15元/小时）、老城区路窄、部分路段单行。下载"与宁同行"App刷码乘地铁即可。去栖霞山、牛首山等远郊景点可打车或坐旅游专线。</div>
+  </div>
+</section>
+
+<!-- ====== Footer ====== -->
+<footer>
+  <p>🎒 南京穷游攻略 · 大学生版 · 数据更新于 2026年5月</p>
+  <p style="margin-top:8px;">价格仅供参考，以实际为准 · 出行前请关注景点预约与天气</p>
+  <p style="margin-top:8px;"><a href="#planner">返回顶部开始规划</a></p>
+</footer>
+
+<!-- ====== Script ====== -->
+<script>
+// ====== LOCATION COORDINATES ======
+const locCoord = {
+  "南京": [32.0430, 118.7830],
+  "新街口": [32.0430, 118.7830],
+  "中山陵": [32.0588, 118.8510],
+  "明孝陵": [32.0560, 118.8450],
+  "灵谷寺": [32.0550, 118.8600],
+  "美龄宫": [32.0470, 118.8480],
+  "音乐台": [32.0558, 118.8510],
+  "钟山": [32.0700, 118.8550],
+  "紫金山": [32.0700, 118.8550],
+  "夫子庙": [32.0189, 118.7908],
+  "秦淮河": [32.0189, 118.7908],
+  "南京博物院": [32.0409, 118.8024],
+  "总统府": [32.0437, 118.7928],
+  "玄武湖": [32.0715, 118.8009],
+  "玄武湖公园": [32.0715, 118.8009],
+  "鸡鸣寺": [32.0635, 118.7956],
+  "明城墙": [32.0630, 118.7950],
+  "台城": [32.0630, 118.7950],
+  "纪念馆": [32.0380, 118.7474],
+  "中华门": [32.0080, 118.7830],
+  "中华门瓮城": [32.0080, 118.7830],
+  "老门东": [32.0110, 118.7830],
+  "栖霞山": [32.1580, 118.9550],
+  "栖霞寺": [32.1580, 118.9530],
+  "牛首山": [31.9150, 118.7420],
+  "佛顶宫": [31.9150, 118.7420],
+  "颐和路": [32.0620, 118.7710],
+  "先锋书店": [32.0540, 118.7690],
+  "雨花台": [32.0020, 118.7780],
+  "南京长江大桥": [32.1080, 118.7470],
+  "红山动物园": [32.0920, 118.7990],
+  "红山森林动物园": [32.0920, 118.7990],
+  "燕子矶": [32.1480, 118.8180],
+  "南京科技馆": [32.0000, 118.7700],
+  "江宁织造博物馆": [32.0420, 118.7980],
+  "六朝博物馆": [32.0430, 118.7960],
+  "明故宫": [32.0390, 118.8150],
+  "中山门": [32.0410, 118.8350],
+  "1912街区": [32.0420, 118.7950],
+  "梅园新村": [32.0450, 118.7970],
+  "下关火车主题园": [32.0920, 118.7450],
+  "南京南站": [31.9690, 118.7980],
+  "南京站": [32.0880, 118.7960],
+  "禄口机场": [31.7420, 118.8700],
+  "科巷": [32.0380, 118.7960],
+  "明瓦廊": [32.0400, 118.7840],
+  "三七八巷": [32.0160, 118.7850],
+  "狮子桥": [32.0670, 118.7730],
+  "湖南路": [32.0680, 118.7740],
+  "南唐二陵": [31.9030, 118.7450],
+  "浦口火车站": [32.1100, 118.7180],
+  "南京眼": [32.0110, 118.7110],
+  "中山码头": [32.0880, 118.7400]
+};
+
+// ====== ROUTE DATABASE (15 templates) ======
+const routeDB = [
+  {
+    id:"nj1",name:"南京经典一日",days:1,budget:"budget",interest:"classic",
+    stops:["中山陵","明孝陵","纪念馆","总统府","夫子庙"],
+    schedule:[
+      "中山陵（上午，提前预约）→ 明孝陵神道 → 音乐台喂鸽子",
+      "总统府（下午2h）→ 1912街区 → 夫子庙秦淮河画舫夜游"
+    ],
+    hotels:["新街口快捷酒店(180元)","夫子庙青旅(80元/床)"],
+    totalRange:"300 - 600 元",
+    tips:"一日游比较赶，建议早起出发；中山陵需提前预约；秦淮画舫建议天黑后乘坐。"
+  },
+  {
+    id:"nj2",name:"南京经典两日",days:2,budget:"mid",interest:"classic",
+    stops:["中山陵","明孝陵","南京博物院","纪念馆","总统府","鸡鸣寺","玄武湖","夫子庙"],
+    schedule:[
+      "中山陵（上午）→ 明孝陵（石象路+陵寝）→ 灵谷寺 → 南京博物院（下午，民国馆必去）→ 夫子庙秦淮夜景",
+      "纪念馆（上午，提前预约）→ 总统府（下午2h）→ 鸡鸣寺 → 明城墙（台城段）→ 老门东晚餐"
+    ],
+    hotels:["全季酒店(大行宫店)(350元)","橘子水晶(夫子庙店)(450元)"],
+    totalRange:"800 - 1,500 元",
+    tips:"南京博物院和中山陵都需提前预约；第二天步行较多穿舒适的鞋。"
+  },
+  {
+    id:"nj3",name:"南京深度三日",days:3,budget:"mid",interest:"classic",
+    stops:["中山陵","明孝陵","灵谷寺","南京博物院","总统府","鸡鸣寺","玄武湖","纪念馆","老门东","中华门","夫子庙"],
+    schedule:[
+      "中山陵 → 明孝陵 → 灵谷寺 → 南京博物院（民国馆）→ 夫子庙秦淮夜景",
+      "总统府 → 六朝博物馆 → 鸡鸣寺 → 明城墙台城 → 玄武湖日落 → 新街口商圈",
+      "纪念馆（上午，提前预约）→ 老门东午餐+逛街 → 中华门瓮城登城墙 → 返程"
+    ],
+    hotels:["亚朵酒店(新街口店)(480元)","花迹酒店(老门东)(550元)"],
+    totalRange:"1,200 - 2,200 元",
+    tips:"第三天纪念馆周一闭馆需注意安排；老门东小吃比夫子庙更地道。"
+  },
+  {
+    id:"nj4",name:"民国寻踪二日",days:2,budget:"mid",interest:"history",
+    stops:["总统府","六朝博物馆","中山陵","美龄宫","纪念馆","颐和路","先锋书店","南京博物院"],
+    schedule:[
+      "总统府（上午）→ 六朝博物馆 → 梅园新村 → 1912街区午餐 → 中山陵 → 美龄宫（'远东第一别墅'）",
+      "纪念馆（上午，提前预约）→ 颐和路公馆区漫步 → 先锋书店（五台山总店）→ 南京博物院民国馆"
+    ],
+    hotels:["颐和公馆(1,200元)","罗莱夏朵(1,500元)"],
+    totalRange:"1,100 - 2,500 元",
+    tips:"颐和路适合清晨或午后漫步拍照；先锋书店是全球最美书店之一。"
+  },
+  {
+    id:"nj5",name:"南京全景四日",days:4,budget:"mid",interest:"nature",
+    stops:["中山陵","明孝陵","灵谷寺","南京博物院","总统府","鸡鸣寺","玄武湖","栖霞山","牛首山","夫子庙","老门东"],
+    schedule:[
+      "中山陵 → 明孝陵 → 灵谷寺 → 南京博物院 → 夫子庙秦淮夜景",
+      "总统府 → 鸡鸣寺 → 明城墙台城 → 玄武湖划船 → 老门东晚餐",
+      "栖霞山全天（栖霞寺→千佛岩→红叶谷→始皇临江处）→ 燕子矶 → 湖南路夜市",
+      "牛首山（佛顶宫+佛顶寺，半天）→ 江宁织造博物馆 → 返程"
+    ],
+    hotels:["金陵饭店(800元)","紫金山庄(900元)"],
+    totalRange:"1,600 - 3,000 元",
+    tips:"栖霞山秋季枫叶最美，11月中下旬为最佳；牛首山建议上午去光线好。"
+  },
+  {
+    id:"nj6",name:"亲子休闲三日",days:3,budget:"mid",interest:"family",
+    stops:["中山陵","南京博物院","红山动物园","玄武湖","南京科技馆","中华门","夫子庙"],
+    schedule:[
+      "中山陵（上午，看鸽子）→ 音乐台喂鸽子 → 南京博物院（恐龙展厅+民国馆，孩子最爱）",
+      "红山森林动物园（全天，考拉馆+熊猫馆+大象馆）→ 玄武湖划船",
+      "南京科技馆（上午）→ 中华门瓮城（爬城墙探险）→ 老门东手作体验 → 返程"
+    ],
+    hotels:["南京威斯汀酒店(800元)","紫清湖温泉酒店(600元)"],
+    totalRange:"1,500 - 3,000 元",
+    tips:"红山动物园建议早点去动物比较活跃；科技馆周一闭馆；亲子行程节奏较慢。"
+  },
+  {
+    id:"nj7",name:"美食探店三日",days:3,budget:"mid",interest:"food",
+    stops:["科巷","总统府","新街口","纪念馆","老门东","夫子庙","明瓦廊","颐和路","三七八巷"],
+    schedule:[
+      "科巷早餐（许阿姨糕团+鸿福面馆）→ 总统府 → 新街口午餐 → 老门东下午茶（陆氏梅花糕+蒋有记锅贴）→ 夫子庙夜市",
+      "李记清真馆锅贴早餐 → 颐和路漫步消食 → 南师大周边小吃 → 先锋书店 → 狮子桥晚餐（南京大牌档）",
+      "纪念馆（上午，提前预约）→ 三七八巷早午餐 → 中华门 → 采购盐水鸭等伴手礼 → 返程"
+    ],
+    hotels:["南京香格里拉(900元)","花筑·南京颐和公馆(1,200元)"],
+    totalRange:"1,200 - 2,500 元",
+    tips:"科巷和三七八巷是最受本地人欢迎的美食街；李记锅贴早上7点就开始排队。"
+  },
+  {
+    id:"nj8",name:"南京豪华三日",days:3,budget:"high",interest:"classic",
+    stops:["中山陵","明孝陵","美龄宫","南京博物院","总统府","玄武湖","牛首山","夫子庙"],
+    schedule:[
+      "中山陵（VIP讲解）→ 美龄宫 → 明孝陵 → 钟山高尔夫酒店午餐 → 南京博物院（专业导览）→ 秦淮画舫VIP包船夜游",
+      "总统府（专家导览）→ 颐和路公馆区 → 金陵饭店午餐 → 玄武湖 → 鸡鸣寺 → 德基广场晚餐+购物",
+      "牛首山佛顶宫（含舍利瞻礼）→ 佛顶寺素斋 → 老门东下午茶 → 返程"
+    ],
+    hotels:["颐和公馆(1,800元)","南京丽思卡尔顿(2,200元)"],
+    totalRange:"3,500 - 6,000 元",
+    tips:"全程专车+深度导览，适合注重体验的旅客；牛首山瞻礼佛顶骨舍利需预约。"
+  },
+  {
+    id:"nj9",name:"金陵古韵五日",days:5,budget:"mid",interest:"history",
+    stops:["中山陵","明孝陵","灵谷寺","南京博物院","总统府","六朝博物馆","鸡鸣寺","中华门","栖霞山","牛首山","老门东","夫子庙"],
+    schedule:[
+      "中山陵 → 明孝陵 → 灵谷寺 → 中山门城墙 → 南京博物院",
+      "总统府 → 六朝博物馆 → 江宁织造博物馆 → 1912街区",
+      "鸡鸣寺 → 台城 → 玄武湖 → 颐和路 → 先锋书店",
+      "栖霞山（栖霞寺+千佛岩+红叶）→ 燕子矶 → 幕燕风光带",
+      "牛首山 → 中华门瓮城 → 老门东午餐 → 返程"
+    ],
+    hotels:["南京圣和府邸(700元)","钞库街十八号(600元)"],
+    totalRange:"2,500 - 4,500 元",
+    tips:"深度历史游，每天一个主题；栖霞山和牛首山需要各半天以上。"
+  },
+  {
+    id:"nj10",name:"清明/五一赏花三日",days:3,budget:"mid",interest:"nature",
+    stops:["鸡鸣寺","玄武湖","明孝陵","中山陵","老门东","牛首山","颐和路"],
+    schedule:[
+      "鸡鸣寺樱花大道（清晨趁人少）→ 明城墙台城 → 玄武湖樱洲 → 明孝陵梅花山/樱花园",
+      "中山陵 → 音乐台 → 灵谷寺 → 颐和路蔷薇花墙（4-5月）→ 先锋书店",
+      "牛首山 → 老门东（紫藤花+老街）→ 返程"
+    ],
+    hotels:["玄武湖假日酒店(500元)","凯宾斯基酒店(800元)"],
+    totalRange:"1,300 - 2,500 元",
+    tips:"3月下旬-4月上旬是赏樱季，鸡鸣寺路早上6点就有人占位；梅花山2-3月是梅季。"
+  },
+  {
+    id:"nj11",name:"秋季枫叶四日",days:4,budget:"mid",interest:"nature",
+    stops:["栖霞山","明孝陵","中山陵","灵谷寺","玄武湖","老门东","颐和路","牛首山"],
+    schedule:[
+      "栖霞山全天（枫叶节主会场：栖霞寺→千佛岩→红叶谷→桃花湖→始皇临江处）→ 燕子矶日落",
+      "明孝陵石象路（清晨'南京最美600米'）→ 中山陵 → 灵谷寺（桂花香+银杏）→ 钟山体育公园",
+      "玄武湖梁洲银杏大道 → 颐和路法桐黄金大道 → 先锋书店 → 老门东秋日夜景",
+      "牛首山（秋高气爽登高）→ 南唐二陵 → 返程"
+    ],
+    hotels:["南京索菲特钟山(700元)","锦江南京饭店(450元)"],
+    totalRange:"1,600 - 3,000 元",
+    tips:"11月中下旬是栖霞枫叶最佳观赏期，周末人极多建议工作日前往；石象路清晨逆光拍摄最美。"
+  },
+  {
+    id:"nj12",name:"南京七日全景豪华",days:7,budget:"high",interest:"classic",
+    stops:["中山陵","明孝陵","美龄宫","灵谷寺","南京博物院","总统府","六朝博物馆","鸡鸣寺","玄武湖","纪念馆","栖霞山","牛首山","中华门","老门东","夫子庙","颐和路","先锋书店"],
+    schedule:[
+      "抵达南京 → 颐和路公馆区漫步 → 先锋书店 → 秦淮画舫夜游",
+      "中山陵 → 美龄宫 → 明孝陵 → 灵谷寺 → 紫金山日落 → 夫子庙晚餐",
+      "南京博物院（全天深度+专业导览）→ 明故宫遗址 → 中山门城墙",
+      "总统府 → 六朝博物馆 → 鸡鸣寺 → 台城 → 玄武湖 → 德基广场",
+      "栖霞山全天 → 燕子矶 → 达摩古洞 → 幕燕滨江风光带",
+      "牛首山佛顶宫 → 南唐二陵 → 老门东 → 中华门瓮城",
+      "纪念馆 → 午餐 → 采购伴手礼 → 返程"
+    ],
+    hotels:["南京丽思卡尔顿(2,200元/晚)","颐和公馆(1,800元/晚)"],
+    totalRange:"7,000 - 12,000 元",
+    tips:"全程专车+深度导览，慢节奏感受南京；所有需要预约的景点提前安排VIP通道。"
+  },
+  {
+    id:"nj13",name:"六朝古韵一日",days:1,budget:"budget",interest:"history",
+    stops:["六朝博物馆","总统府","纪念馆","鸡鸣寺","台城"],
+    schedule:[
+      "六朝博物馆（上午）→ 总统府（中午-下午）→ 纪念馆（提前预约）→ 鸡鸣寺 → 台城明城墙日落"
+    ],
+    hotels:["新街口青旅(80元)","鼓楼快捷酒店(180元)"],
+    totalRange:"200 - 400 元",
+    tips:"浓缩六朝+民国精华的一天，适合历史爱好者；六朝博物馆设计感极强。"
+  },
+  {
+    id:"nj14",name:"慢享南京五日",days:5,budget:"high",interest:"classic",
+    stops:["中山陵","明孝陵","南京博物院","总统府","鸡鸣寺","玄武湖","栖霞山","牛首山","老门东","夫子庙","中华门","颐和路"],
+    schedule:[
+      "抵达 → 颐和路公馆区下午茶 → 先锋书店 → 秦淮画舫夜游",
+      "中山陵 → 明孝陵 → 灵谷寺素斋 → 美龄宫",
+      "南京博物院 → 总统府 → 六朝博物馆 → 1912晚餐",
+      "鸡鸣寺 → 玄武湖 → 台城 → 明瓦廊小吃 → 老门东",
+      "牛首山或栖霞山半日（二选一）→ 中华门瓮城 → 返程"
+    ],
+    hotels:["圣和府邸豪华精选(900元)","南京金鹰国际(750元)"],
+    totalRange:"3,000 - 5,500 元",
+    tips:"慢节奏非特种兵式旅行；每天只安排2-3个景点，深度体验不赶路。"
+  },
+  {
+    id:"nj15",name:"学生党特种兵二日",days:2,budget:"budget",interest:"classic",
+    stops:["中山陵","明孝陵","南京博物院","纪念馆","总统府","夫子庙","老门东","鸡鸣寺","玄武湖"],
+    schedule:[
+      "6:00中山陵日出 → 明孝陵石象路 → 南京博物院（3h速览）→ 纪念馆（提前预约）→ 总统府 → 老门东晚餐 → 夫子庙 → 秦淮画舫（最晚一班）",
+      "鸡鸣寺 → 台城明城墙 → 玄武湖骑行 → 先锋书店 → 科巷美食 → 三七八巷伴手礼 → 返程"
+    ],
+    hotels:["南京夫子庙国际青旅(60元/床)","如家快捷(150元)"],
+    totalRange:"350 - 600 元",
+    tips:"超密集行程适合体力好的学生党；南京博物院和中山陵务必提前预约；地铁+共享单车组合效率最高。"
+  }
+];
+
+// ====== COST REFERENCE DATA ======
+const costData = {
+  hotel: {
+    budget: { center:"60-100（青旅床位）", qinhuai:"60-100（青旅床位）", xuanwu:"70-120（青旅/胶囊）", jiangning:"50-80（青旅）", qixia:"50-80（青旅）" },
+    mid:    { center:"120-200（经济酒店）", qinhuai:"120-200（经济酒店）", xuanwu:"130-220", jiangning:"100-180", qixia:"100-150" },
+    high:   { center:"200-350（精品酒店）", qinhuai:"200-350", xuanwu:"250-400", jiangning:"180-300", qixia:"150-250" }
+  },
+  food: {
+    budget: "40-80元（街头小吃+食堂+便利店）",
+    mid: "80-150元（本地餐馆+特色小吃）",
+    high: "150-250元（品质餐厅+咖啡甜品）"
+  },
+  transport: {
+    budget: "15-25元（地铁+共享单车）",
+    mid: "30-60元（地铁+偶尔打车）",
+    high: "60-150元（网约车为主）"
+  },
+  ticket: {
+    budget: "0-50元（只去免费景点，收费的用学生证半价）",
+    mid: "50-120元（主要收费景点+学生票）",
+    high: "120-250元（全景点+演出票）"
+  },
+  // 学生优惠速查表
+  studentDiscount: {
+    "明孝陵": "全价70→学生35元",
+    "总统府": "全价40→学生20元",
+    "中华门瓮城": "全价50→学生25元",
+    "牛首山": "全价98→学生49元",
+    "栖霞山": "全价40→学生20元（淡季25→12.5元）",
+    "鸡鸣寺": "10元（无学生票）",
+    "中山陵": "免费（需预约）",
+    "南京博物院": "免费（需预约）",
+    "玄武湖": "免费",
+    "夫子庙（街区）": "免费",
+    "老门东": "免费",
+    "纪念馆": "免费（需预约）"
+  }
+};
+
+
+// ====== 景点预约提醒 ======
+const bookingRequired = {
+  "中山陵":  { need: true,  platform: "钟山风景区小程序", days: "提前1-7天", tip: "节假日秒光，建议凌晨0点蹲守放票", free: true },
+  "南京博物院": { need: true,  platform: "南京博物院小程序", days: "提前1-7天", tip: "每天限量2万张，周末建议提前3天", free: true },
+  "纪念馆":   { need: true,  platform: "侵华日军南京大屠杀遇难同胞纪念馆公众号", days: "提前1-7天", tip: "周一闭馆！下午4点停止入馆", free: true },
+  "总统府":   { need: false, platform: "可现场购票/美团", days: "", tip: "节假日排队较长建议早去（8:30开门）", free: false },
+  "明孝陵":   { need: false, platform: "钟山风景区小程序/现场", days: "", tip: "钟山联票100元更划算（含明孝陵+灵谷寺+音乐台+美龄宫）", free: false },
+  "牛首山":   { need: false, platform: "美团/携程/现场", days: "", tip: "学生票49元，佛顶宫瞻礼需另预约", free: false },
+  "栖霞山":   { need: false, platform: "美团/现场", days: "", tip: "枫叶季（11月）周末人山人海，建议工作日去", free: false },
+  "鸡鸣寺":   { need: false, platform: "现场购票", days: "", tip: "樱花季（3月底）早上6点就有人排队", free: false },
+  "中华门瓮城": { need: false, platform: "美团/现场", days: "", tip: "城墙徒步建议下午去，光线好出片", free: false }
+};
+
+function getBookingWarnings(stops) {
+  const warnings = [];
+  const seen = new Set();
+  stops.forEach(function(name) {
+    if (seen.has(name)) return;
+    seen.add(name);
+    // 精确匹配 or 包含匹配
+    let info = bookingRequired[name];
+    if (!info) {
+      for (var key in bookingRequired) {
+        if (name.includes(key) || key.includes(name)) {
+          info = bookingRequired[key];
+          break;
+        }
+      }
+    }
+    if (info && info.need) {
+      warnings.push({ name: name, ...info });
+    }
+  });
+  return warnings;
+}
+
+// ====== WEATHER HELPERS ======
+const WMO_CODES = {
+  0:  { icon:"☀", label:"晴", cls:"sunny" },
+  1:  { icon:"🌤", label:"大部晴", cls:"sunny" },
+  2:  { icon:"⛅", label:"多云", cls:"cloudy" },
+  3:  { icon:"☁", label:"阴", cls:"cloudy" },
+  45: { icon:"🌫", label:"雾", cls:"cloudy" },
+  48: { icon:"🌫", label:"霜雾", cls:"cloudy" },
+  51: { icon:"🌦", label:"小雨", cls:"rainy" },
+  53: { icon:"🌦", label:"中雨", cls:"rainy" },
+  55: { icon:"🌧", label:"大雨", cls:"rainy" },
+  61: { icon:"🌧", label:"雨", cls:"rainy" },
+  63: { icon:"🌧", label:"中雨", cls:"rainy" },
+  65: { icon:"🌧", label:"大雨", cls:"rainy" },
+  71: { icon:"🌨", label:"小雪", cls:"snowy" },
+  73: { icon:"🌨", label:"中雪", cls:"snowy" },
+  75: { icon:"❄", label:"大雪", cls:"snowy" },
+  80: { icon:"🌦", label:"阵雨", cls:"rainy" },
+  81: { icon:"🌧", label:"强阵雨", cls:"rainy" },
+  82: { icon:"⛈", label:"暴阵雨", cls:"rainy" },
+  95: { icon:"⛈", label:"雷暴", cls:"rainy" },
+  96: { icon:"⛈", label:"雷暴冰雹", cls:"rainy" },
+  99: { icon:"⛈", label:"强雷暴", cls:"rainy" }
+};
+
+function getWeatherIcon(code) {
+  return WMO_CODES[code] || { icon:"🌡", label:"未知", cls:"cloudy" };
+}
+
+let weatherCache = null;
+let mapInstance = null;
+
+async function fetchWeather(lat, lng, forecastDays) {
+  if (weatherCache) return weatherCache;
+  try {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&daily=temperature_2m_max,temperature_2m_min,weathercode,precipitation_probability_max&timezone=Asia/Shanghai&forecast_days=${Math.min(forecastDays, 16)}`;
+    const resp = await fetch(url);
+    if (!resp.ok) throw new Error("API error");
+    const data = await resp.json();
+    weatherCache = data.daily;
+    return weatherCache;
+  } catch(e) {
+    console.warn("Weather fetch failed:", e.message);
+    return null;
+  }
+}
+
+// ====== WGS-84 → GCJ-02 坐标转换（高德地图使用GCJ-02坐标系）======
+function wgs84ToGcj02(lng, lat) {
+  var PI = Math.PI;
+  var a = 6378245.0;
+  var ee = 0.00669342162296594323;
+  function _tLat(x, y) {
+    var r = -100.0 + 2.0 * x + 3.0 * y + 0.2 * y * y + 0.1 * x * y + 0.2 * Math.sqrt(Math.abs(x));
+    r += (20.0 * Math.sin(6.0 * x * PI) + 20.0 * Math.sin(2.0 * x * PI)) * 2.0 / 3.0;
+    r += (20.0 * Math.sin(y * PI) + 40.0 * Math.sin(y / 3.0 * PI)) * 2.0 / 3.0;
+    r += (160.0 * Math.sin(y / 12.0 * PI) + 320.0 * Math.sin(y * PI / 30.0)) * 2.0 / 3.0;
+    return r;
+  }
+  function _tLng(x, y) {
+    var r = 300.0 + x + 2.0 * y + 0.1 * x * x + 0.1 * x * y + 0.1 * Math.sqrt(Math.abs(x));
+    r += (20.0 * Math.sin(6.0 * x * PI) + 20.0 * Math.sin(2.0 * x * PI)) * 2.0 / 3.0;
+    r += (20.0 * Math.sin(x * PI) + 40.0 * Math.sin(x / 3.0 * PI)) * 2.0 / 3.0;
+    r += (150.0 * Math.sin(x / 12.0 * PI) + 300.0 * Math.sin(x / 30.0 * PI)) * 2.0 / 3.0;
+    return r;
+  }
+  if (lng < 72.004 || lng > 137.8347 || lat < 0.8293 || lat > 55.8271) {
+    return [lng, lat];
+  }
+  var dLat = _tLat(lng - 105.0, lat - 35.0);
+  var dLng = _tLng(lng - 105.0, lat - 35.0);
+  var radLat = lat / 180.0 * PI;
+  var magic = Math.sin(radLat);
+  magic = 1 - ee * magic * magic;
+  var sqrtMagic = Math.sqrt(magic);
+  dLat = (dLat * 180.0) / ((a * (1 - ee)) / (magic * sqrtMagic) * PI);
+  dLng = (dLng * 180.0) / (a / sqrtMagic * Math.cos(radLat) * PI);
+  return [lng + dLng, lat + dLat];
+}
+function toGcj(coord) {
+  var gcj = wgs84ToGcj02(coord[1], coord[0]);
+  return [gcj[1], gcj[0]];
+}
+
+function initMap(stops) {
+  // Destroy previous map instance
+  if (mapInstance) {
+    mapInstance.remove();
+    mapInstance = null;
+  }
+
+  const mapEl = document.getElementById("route-map");
+  if (!mapEl) return;
+
+  const coords = [];
+  stops.forEach(name => {
+    const c = locCoord[name];
+    if (c) coords.push({ name, lat: c[0], lng: c[1] });
+  });
+  if (coords.length === 0) return;
+
+  // 将所有坐标从 WGS-84 转换为 GCJ-02（高德地图坐标系）
+  coords.forEach(function(c) {
+    var gcj = wgs84ToGcj02(c.lng, c.lat);
+    c.lat = gcj[1];
+    c.lng = gcj[0];
+  });
+
+  // Small delay to ensure container is visible and sized
+  setTimeout(() => {
+    mapInstance = L.map("route-map", { attributionControl: false }).setView([coords[0].lat, coords[0].lng], 7);
+
+    L.tileLayer("https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}", {
+      maxZoom: 18,
+      subdomains: ["1","2","3","4"],
+      attribution: "&copy; 高德地图 | 数据 &copy; AutoNavi"
+    }).addTo(mapInstance);
+
+    // Custom icon
+    const startIcon = L.divIcon({ html: '<div style="background:#27ae60;color:#fff;width:24px;height:24px;border-radius:50%;text-align:center;line-height:24px;font-size:12px;font-weight:700;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3);">起</div>', iconSize:[24,24], iconAnchor:[12,12] });
+    const stopIcon = L.divIcon({ html: '<div style="background:#e74c3c;color:#fff;width:20px;height:20px;border-radius:50%;text-align:center;line-height:20px;font-size:10px;font-weight:700;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3);">●</div>', iconSize:[20,20], iconAnchor:[10,10] });
+    const endIcon = L.divIcon({ html: '<div style="background:#1a5276;color:#fff;width:24px;height:24px;border-radius:50%;text-align:center;line-height:24px;font-size:12px;font-weight:700;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3);">终</div>', iconSize:[24,24], iconAnchor:[12,12] });
+
+    const markers = [];
+    coords.forEach((pt, i) => {
+      let icon = stopIcon;
+      if (i === 0) icon = startIcon;
+      else if (i === coords.length - 1) icon = endIcon;
+      const m = L.marker([pt.lat, pt.lng], { icon }).addTo(mapInstance).bindTooltip(pt.name, { direction:"top", offset:[0,-8], permanent:true, className:"map-label" });
+      markers.push(m);
+    });
+
+    // Directional polyline: solid base + animated dash overlay
+    const latlngs = coords.map(c => [c.lat, c.lng]);
+    L.polyline(latlngs, { color:"#1a5276", weight:5, opacity:0.2 }).addTo(mapInstance);
+    L.polyline(latlngs, { color:"#1a5276", weight:4, opacity:0.8, dashArray:"12 18", className:"route-flow" }).addTo(mapInstance);
+
+    // Fit bounds
+    const bounds = L.latLngBounds(latlngs);
+    mapInstance.fitBounds(bounds, { padding: [30, 30] });
+
+    // Update status bar
+    const mapStatus = document.getElementById("statusMap");
+    if (mapStatus) {
+      mapStatus.innerHTML = '<span class="status-dot online"></span><span class="s-label">地图数据</span><span class="s-val">高德地图 · 可缩放拖动</span>';
+    }
+  }, 200);
+
+  // Fallback: if tiles fail to load after 8 seconds
+  setTimeout(() => {
+    const mapEl = document.getElementById("route-map");
+    if (mapEl && mapEl.querySelectorAll("img.leaflet-tile").length === 0) {
+      const mapStatus = document.getElementById("statusMap");
+      if (mapStatus) {
+        mapStatus.innerHTML = '<span class="status-dot offline"></span><span class="s-label">地图数据</span><span class="s-val">离线 · 底图不可用</span>';
+      }
+    }
+  }, 8000);
+}
+
+// ====== WEATHER-ADAPTIVE HELPERS ======
+function classifyDay(dayContent) {
+  const outdoor = ["山","陵","湖","城墙","徒步","划船","骑行","枫叶","梅花","樱花","银杏","日落","日出","长江","栈道","登山","动物园","户外","老街","环湖","公园"];
+  const indoor = ["博物馆","纪念馆","书店","餐厅","咖啡馆","下午茶","购物","商场","演出","手作","SPA","酒店","休息","茶社","素食","图书馆","科技馆"];
+  let outdoorScore = 0, indoorScore = 0;
+  outdoor.forEach(k => { if (dayContent.includes(k)) outdoorScore++; });
+  indoor.forEach(k => { if (dayContent.includes(k)) indoorScore++; });
+  if (dayContent.includes("返程") || dayContent.includes("抵达南京")) return "transit";
+  if (outdoorScore > indoorScore + 1) return "outdoor";
+  if (indoorScore > outdoorScore + 1) return "indoor";
+  return "mixed";
+}
+
+function getWeatherRisk(weatherCode, precipProb) {
+  if (weatherCode >= 95) return { level:"high", label:"⛈ 恶劣", color:"#c0392b", bg:"#fdedec" };
+  if (weatherCode >= 71 || weatherCode >= 55) return { level:"high", label:"🌧 较差", color:"#c0392b", bg:"#fdedec" };
+  if (weatherCode >= 51 || precipProb > 60) return { level:"medium", label:"🌦 一般", color:"#e67e22", bg:"#fef5e7" };
+  if (weatherCode >= 2 || precipProb > 30) return { level:"low", label:"⛅ 尚可", color:"#f39c12", bg:"#fffef5" };
+  return { level:"none", label:"☀ 良好", color:"#27ae60", bg:"#eafaf1" };
+}
+
+function getAdaptiveTip(weatherCode, precipProb, dayType) {
+  if (weatherCode >= 95) {
+    return "⛈ 雷暴天气，强烈建议改为室内活动。博物馆参观、先锋书店、购物中心是不错的选择。";
+  }
+  if (weatherCode >= 71) {
+    return "❄ 降雪/低温天气，户外注意防滑保暖。备选方案：南京博物院深度游、泡温泉、逛商场。";
+  }
+  if (weatherCode >= 61 || (weatherCode >= 51 && precipProb > 60)) {
+    if (dayType === "outdoor") {
+      return "🌧 雨天户外体验不佳，建议与后一天的室内活动日调换顺序。替代方案：南京博物院、先锋书店、老门东咖啡馆。";
+    }
+    return "🌧 降雨天气，带好雨具。博物馆和室内景点不受影响，可优先安排。";
+  }
+  if (weatherCode >= 51 || precipProb > 40) {
+    return "🌦 可能有阵雨，建议上午优先户外活动，下午逛博物馆或商场。";
+  }
+  if (weatherCode >= 2) {
+    if (dayType === "outdoor") return "⛅ 多云天气适合户外活动，拍照光线柔和。";
+    return "⛅ 多云天气，室内外活动均可舒适进行。";
+  }
+  if (dayType === "outdoor") return "☀ 晴天！户外游览的好天气，注意防晒补水。";
+  return "☀ 晴好天气，尽情享受金陵风光，SPF30+ 防晒霜即可。";
+}
+
+function getRouteWeatherRisk(stops, weatherData, dayCount) {
+  // Check if route involves ultra-high passes or remote areas
+  const highRiskStops = ["栖霞山","牛首山","紫金山","燕子矶"];
+  const involved = stops.filter(s => highRiskStops.includes(s));
+  if (involved.length === 0 || !weatherData) return null;
+
+  // Check worst weather in forecast days
+  let worstCode = 0, worstDay = -1;
+  for (let i = 0; i < Math.min(dayCount, weatherData.time.length); i++) {
+    if (weatherData.weathercode[i] > worstCode) {
+      worstCode = weatherData.weathercode[i];
+      worstDay = i;
+    }
+  }
+
+  if (worstCode >= 71) {
+    return {
+      type: "warning",
+      msg: `⚠ 行程包含${involved[0]}等户外景点，预报第${worstDay+1}天有降雪/大雨，山路可能湿滑。建议调整行程顺序或准备备选方案。`
+    };
+  }
+  if (worstCode >= 61) {
+    return {
+      type: "notice",
+      msg: `💡 ${involved[0]}等景点预报有降雨，建议带好雨具、穿防水鞋。户外登山注意安全。`
+    };
+  }
+  return null;
+}
+
+
+// ====== SMART PLANNER ENGINE =====
+function generatePlan() {
+  // Show booking checklist
+  var checklist = document.getElementById("bookingChecklist");
+  if (checklist) checklist.style.display = "block";
+
+  const days = parseInt(document.getElementById("days").value);
+  const budget = document.getElementById("budget").value;
+  const season = document.getElementById("season").value;
+  const interest = document.getElementById("interest").value;
+  const people = parseInt(document.getElementById("people").value);
+  const startDate = document.getElementById("startDate").value;
+
+  // Reset weather cache
+  weatherCache = null;
+
+  // Find matching routes (within ±3 days)
+  let matches = routeDB.filter(r => Math.abs(r.days - days) <= 3);
+  if (matches.length === 0) matches = routeDB;
+
+  // Score
+  matches.forEach(r => {
+    r.score = 0;
+    const dayDiff = Math.abs(r.days - days);
+    r.score += dayDiff === 0 ? 15 : dayDiff === 1 ? 10 : dayDiff === 2 ? 5 : 2;
+    if (r.budget === budget) r.score += 12;
+    else if ((budget === "luxury" && r.budget === "high") || (budget === "high" && r.budget === "luxury")) r.score += 6;
+    else if ((budget === "high" && r.budget === "mid") || (budget === "mid" && r.budget === "high")) r.score += 4;
+    if (r.interest === interest) r.score += 10;
+    else if (interest === "classic" && r.interest === "classic") r.score += 5;
+    else if (interest === "history" && r.interest === "classic") r.score += 4;
+    else if (interest === "food" && r.interest === "classic") r.score += 4;
+    else if (interest === "family" && r.interest === "family") r.score += 5;
+  });
+
+  matches.sort((a,b) => b.score - a.score);
+  const route = matches[0];
+  window._currentRoute = route;
+
+  // ---- 预约提醒 ----
+  const bookingWarnings = getBookingWarnings(route.stops);
+  setTimeout(function() {
+    const bwEl = document.getElementById("bookingWarning");
+    if (bwEl && bookingWarnings.length > 0) {
+      bwEl.style.display = "block";
+      var bwHtml = '<strong>📋 预约提醒：</strong>以下景点<strong style="color:#e67e22;">必须提前预约</strong>，否则无法入内！<br>';
+      bookingWarnings.forEach(function(b) {
+        bwHtml += '  <span style="display:inline-block;margin:4px 8px 0 0;padding:3px 10px;background:#fff;border-radius:6px;font-size:0.82rem;border:1px solid #f0d78c;">';
+        bwHtml += '<strong>' + b.name + '</strong> → ' + b.platform + ' | ' + b.days;
+        if (b.tip) bwHtml += ' | 💡' + b.tip;
+        if (b.free) bwHtml += ' | 🆓免费';
+        bwHtml += '</span>';
+      });
+      bwEl.innerHTML = bwHtml;
+    }
+  }, 100);
+
+  // Labels
+  const budgetLabel = {budget:"极致穷游",mid:"学生舒适",high:"小资体验",luxury:"小资体验"};
+  const interestLabel = {classic:"经典必游",food:"吃遍金陵",history:"历史人文",photo:"拍照打卡",nature:"自然风光",family:"亲子休闲"};
+  const seasonLabel = {spring:"春季",summer:"夏季",autumn:"秋季",winter:"冬季"};
+  const seasonTips = {
+    spring:"春季（3-5月）是南京最美的季节，鸡鸣寺樱花、梅花山赏梅不可错过。带薄外套+长袖，早晚微凉。",
+    summer:"夏季（6-8月）闷热多雨，注意防晒防暑。适合夜游秦淮、逛博物馆等室内活动。备好遮阳伞+防晒霜。",
+    autumn:"秋季（9-11月）南京最舒适的季节，栖霞山红叶、明孝陵银杏绝美。温度15-25°C最适宜户外活动。",
+    winter:"冬季（12-2月）湿冷游客少，酒店机票便宜。适合温泉+赏梅+博物馆室内游。带羽绒服+保暖内衣。"
+  };
+
+  // People advice
+  let peopleNote;
+  if (people === 1) peopleNote = "独行穷游最优解：青旅床位50-80元/晚，地铁+共享单车一天不到20元，吃饭去科巷/三七八巷便宜又地道。";
+  else if (people === 2) peopleNote = "两人出行最佳！拼房住经济酒店人均60-100元，吃饭可以多点几样分摊，打车也比一个人划算。";
+  else if (people === 3) peopleNote = "三人出行订三人间或加床最省钱，人均住宿50-80元。远郊景点三人拼车去栖霞山/牛首山超方便。";
+  else if (people <= 4) peopleNote = "四人出行黄金组合！青旅四人间刚好包一间（人均40-60元），打车刚好满座，吃饭A下来最划算。";
+  else if (people <= 6) peopleNote = "5-6人可订青旅多人间或民宿，人均住宿40-70元。建议分两队打车或包一辆7座车。";
+  else if (people <= 8) peopleNote = "7-8人推荐民宿整租（三室一厅约300-500元），人均40-60元。出行可包中巴。";
+  else peopleNote = "10人以上班级/社团出行，提前联系青旅包层或民宿包栋，门票可谈团体价，人均控制在300-400元/天。";
+
+  // Date formatting
+  let dateLabel = "";
+  let forecastDays = days;
+  if (startDate) {
+    dateLabel = ` · ${startDate} 出发`;
+    const start = new Date(startDate);
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const diffDays = Math.ceil((start - today) / (1000*60*60*24));
+    if (diffDays < 0) forecastDays = 0; // Past date
+    else forecastDays = Math.min(diffDays + days, 16); // Max 16 days forecast
+  } else {
+    forecastDays = Math.min(days, 16);
+  }
+
+  // Adjust days
+  let adjustedSchedule = [...route.schedule];
+  if (route.days < days) {
+    const extra = days - route.days;
+    const fillers = [
+      "颐和路公馆区漫步 → 先锋书店泡一下午 → 南京大学周边探店",
+      "栖霞山深度一日（栖霞寺→千佛岩→红叶谷→始皇临江处）→ 燕子矶看长江日落",
+      "江宁织造博物馆 → 六朝博物馆 → 1912街区晚餐 → 德基广场购物",
+      "南京长江大桥徒步 → 下关火车主题园 → 中山码头轮渡 → 浦口火车站（朱自清《背影》月台）",
+      "红山森林动物园 → 玄武湖划船 → 鸡鸣寺素斋 → 明城墙漫步",
+      "高淳老街一日游 → 固城湖大闸蟹（秋季限定）→ 慢城茶园"
+    ];
+    for (let i = 0; i < extra; i++) {
+      adjustedSchedule.splice(adjustedSchedule.length - 1 + i, 0, fillers[i % fillers.length]);
+    }
+  } else if (route.days > days) {
+    adjustedSchedule = route.schedule.slice(0, days);
+    if (!adjustedSchedule[adjustedSchedule.length-1].includes("返程")) {
+      adjustedSchedule[adjustedSchedule.length-1] += " → 返程";
+    }
+  }
+
+  // Calculate cost estimates
+  // 穷游版只有3档预算，luxury映射到high
+  const actualBudget = (budget === "luxury") ? "high" : budget;
+  const hCost = costData.hotel[actualBudget];
+  const fCost = costData.food[actualBudget];
+  const tCost = costData.transport[actualBudget];
+  const tkCost = costData.ticket[actualBudget];
+  const hotelPerNight = parseInt(hCost.center.match(/\d+/)?.[0] || "80");
+  const foodPerDay = parseInt(fCost.match(/\d+/)?.[0] || "50");
+
+  // Build HTML
+  let html = `
+    <div class="result-header">
+      <div>
+        <h3>🎯 ${route.name}</h3>
+        <div style="color:#888;font-size:0.9rem;margin-top:4px;">
+          ${seasonLabel[season]} · ${interestLabel[interest]} · ${budgetLabel[budget]} · ${people}人出行${dateLabel}
+        </div>
+      </div>
+      <div class="price-tag">${route.totalRange}<span> /人</span></div>
+    </div>
+
+    <div class="cost-breakdown">
+      <div class="cost-item">
+        <div class="cost-num">¥${hotelPerNight * (days - 1)}</div>
+        <div class="cost-label">🏨 住宿估算（${days-1}晚）</div>
+      </div>
+      <div class="cost-item">
+        <div class="cost-num">¥${foodPerDay * days}</div>
+        <div class="cost-label">🍜 餐饮估算（${days}天）</div>
+      </div>
+      <div class="cost-item">
+        <div class="cost-num">${tkCost}</div>
+        <div class="cost-label">🎫 门票估算</div>
+      </div>
+      <div class="cost-item">
+        <div class="cost-num">${tCost}</div>
+        <div class="cost-label">🚗 交通日估</div>
+      </div>
+      <div class="cost-item">
+        <div class="cost-num">¥2,000-5,000</div>
+        <div class="cost-label">✈ 往返大交通</div>
+      </div>
+    </div>
+
+    <p style="color:#888;font-size:0.82rem;margin-bottom:8px;">
+      💡 以上为单人费用估算，未含往返大交通。${peopleNote}
+    </p>
+
+    <div class="status-bar" id="statusBar">
+      <div class="status-item">
+        <span class="status-dot online" style="animation:none;"></span>
+        <span class="s-label">攻略内容</span>
+        <span class="s-val">静态参考数据</span>
+      </div>
+      <div class="status-item" id="statusWeather">
+        <span class="status-dot online"></span>
+        <span class="s-label">天气数据</span>
+        <span class="s-val">获取中...</span>
+      </div>
+      <div class="status-item" id="statusMap">
+        <span class="status-dot online"></span>
+        <span class="s-label">地图数据</span>
+        <span class="s-val">在线加载中...</span>
+      </div>
+    </div>
+
+    <div class="map-container"><div id="route-map" style="width:100%;height:100%;"></div></div>
+    <div class="map-legend">
+      <span><span class="map-dot start"></span> 起点</span>
+      <span><span class="map-dot stop"></span> 途经点</span>
+      <span><span class="map-dot end"></span> 终点</span>
+      <span style="margin-left:auto;font-size:0.75rem;">路线示意 · 可缩放拖动</span>
+    </div>
+    <div id="routeRiskNotice" style="display:none;"></div>
+  `;
+
+  // Day cards with weather placeholder
+  adjustedSchedule.forEach((dayContent, i) => {
+    let dayCost = `住宿${hCost.center}元 | 餐饮${fCost} | 交通${tCost} | 门票${tkCost}`;
+      const studentTip = '<br><span style="font-size:0.75rem;color:#27ae60;">🎓 持学生证：明孝陵35元、总统府20元、中华门25元、牛首山49元、栖霞山20元</span>';
+    html += `
+      <div class="day-card" id="dcard-${i}">
+        <h4>📅 第${i+1}天 <span class="weather-badge weather-loading" id="wday-${i}">天气加载中...</span></h4>
+        <div class="schedule">${dayContent}</div>
+        <div class="day-cost"><span>🏨 ${dayCost}</span></div>
+        <div class="weather-tip" id="wtip-${i}" style="display:none;margin-top:10px;padding:8px 12px;border-radius:8px;font-size:0.82rem;"></div>
+      </div>
+    `;
+  });
+
+  // Hotels
+  if (route.hotels && route.hotels.length > 0) {
+    html += `
+      <div style="margin-top:20px;padding:16px 20px;background:#f9f6f2;border-radius:10px;">
+        <strong style="color:#5d2e2e;">🏨 推荐住宿：</strong>
+        <span style="color:#666;font-size:0.9rem;margin-left:4px;">${route.hotels.join(" &nbsp;|&nbsp; ")}</span>
+      </div>
+    `;
+  }
+
+  html += `
+    <div id="bookingWarning" style="display:none;margin-bottom:12px;padding:14px 18px;background:#fef9e7;border-radius:10px;border-left:4px solid #e67e22;"></div>
+    <div class="result-tips">
+      <strong>💡 出行提示：</strong>${route.tips}<br>
+      <span style="color:#999;">${seasonTips[season]}</span>
+    </div>
+    <div class="result-tips" style="background:#eafaf1;border-left-color:#27ae60;margin-top:8px;">
+      <strong>🎓 学生优惠速查：</strong>凭全日制学生证，明孝陵35元（半价）、总统府20元（半价）、中华门25元（半价）、牛首山49元（半价）、栖霞山20元（半价）。中山陵/南博/玄武湖/纪念馆/老门东/夫子庙街区——全部免费！<br>
+      <span style="color:#888;font-size:0.78rem;">💡 省钱TIP：南京地铁一日通票15元无限坐；青旅多人间60-80元/晚；科巷&三七八巷人均20元吃到撑。</span>
+    </div>
+    <div class="btn-export">
+      <button class="btn-reset" onclick="resetPlan()">🔄 重新生成</button>
+      <button class="btn-print" onclick="saveAsImage()" style="background:#27ae60;">📸 保存为图片</button>
+      <button class="btn-print" onclick="window.print()">🖨 打印攻略</button>
+    </div>
+  `;
+
+  const resultEl = document.getElementById("result");
+  resultEl.innerHTML = html;
+  // Update booking checklist based on selected route
+  var checklist = document.getElementById("bookingChecklist");
+  if (checklist && route.stops) {
+    var needed = [];
+    if (route.stops.some(function(s) { return s.includes("中山陵"); })) needed.push('<span style="background:#eafaf1;padding:2px 8px;border-radius:4px;margin:0 2px;">✅ 中山陵（小程序·免费）</span>');
+    else needed.push('<span style="background:#fdedec;padding:2px 8px;border-radius:4px;margin:0 2px;">中山陵（未在行程）</span>');
+    if (route.stops.some(function(s) { return s.includes("南京博物院"); })) needed.push('<span style="background:#eafaf1;padding:2px 8px;border-radius:4px;margin:0 2px;">✅ 南京博物院（小程序·免费）</span>');
+    else needed.push('<span style="background:#fdedec;padding:2px 8px;border-radius:4px;margin:0 2px;">南博（未在行程）</span>');
+    if (route.stops.some(function(s) { return s.includes("纪念馆"); })) needed.push('<span style="background:#eafaf1;padding:2px 8px;border-radius:4px;margin:0 2px;">✅ 纪念馆（公众号·免费）</span>');
+    else needed.push('<span style="background:#fdedec;padding:2px 8px;border-radius:4px;margin:0 2px;">纪念馆（未在行程）</span>');
+    checklist.innerHTML = '<strong style="color:#e67e22;">📋 预约状态：</strong>' + needed.join(' ') + '<br><span style="color:#888;font-size:0.78rem;">⚠ 绿色=已包含需预约 | 红色=未包含。必须提前1-7天预约！周一闭馆！</span>';
+  }
+  resultEl.classList.add("show");
+  resultEl.scrollIntoView({behavior:"smooth",block:"center"});
+
+  // Init map
+  if (route.stops && route.stops.length > 0) {
+    initMap(route.stops);
+  }
+
+  // Fetch weather
+  const weatherLat = locCoord["南京"] ? locCoord["南京"][0] : 32.04;
+  const weatherLng = locCoord["南京"] ? locCoord["南京"][1] : 118.78;
+  fetchWeather(weatherLat, weatherLng, forecastDays).then(weatherData => {
+    if (!weatherData) {
+      // Show seasonal averages if API fails
+      updateWeatherFallback(days, season);
+    } else {
+      updateWeatherBadges(weatherData, days, startDate);
+    }
+  });
+}
+
+function updateWeatherBadges(weatherData, days, startDate) {
+  let startOffset = 0;
+  if (startDate) {
+    const start = new Date(startDate);
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    startOffset = Math.max(0, Math.round((start - today) / (1000*60*60*24)));
+  }
+
+  let bestDay = -1, worstDay = -1;
+  let bestScore = -Infinity, worstScore = Infinity;
+
+  for (let i = 0; i < days; i++) {
+    const el = document.getElementById("wday-" + i);
+    if (!el) continue;
+    const idx = startOffset + i;
+    if (idx >= weatherData.time.length) {
+      el.textContent = "暂无预报数据";
+      el.className = "weather-badge cloudy";
+      continue;
+    }
+    const code = weatherData.weathercode[idx];
+    const tMax = Math.round(weatherData.temperature_2m_max[idx]);
+    const tMin = Math.round(weatherData.temperature_2m_min[idx]);
+    const precip = weatherData.precipitation_probability_max ? weatherData.precipitation_probability_max[idx] : 0;
+    const w = getWeatherIcon(code);
+    const dateLabel = weatherData.time[idx];
+    el.innerHTML = `${w.icon} ${w.label} ${tMin}°~${tMax}°C${precip > 30 ? ' 💧'+precip+'%' : ''}`;
+    el.className = "weather-badge " + w.cls;
+    el.title = `${dateLabel}: ${w.label}, ${tMin}°~${tMax}°C, 降水概率${precip}%`;
+
+    // --- Adaptive tip ---
+    const cardEl = document.getElementById("dcard-" + i);
+    const tipEl = document.getElementById("wtip-" + i);
+    if (cardEl && tipEl) {
+      const scheduleText = cardEl.querySelector(".schedule").textContent;
+      const dayType = classifyDay(scheduleText);
+      const risk = getWeatherRisk(code, precip);
+      const tip = getAdaptiveTip(code, precip, dayType);
+
+      // Border color
+      cardEl.style.borderLeftColor = risk.color;
+      cardEl.style.borderLeftWidth = "5px";
+
+      // Show tip
+      tipEl.style.display = "block";
+      tipEl.style.background = risk.bg;
+      tipEl.style.color = risk.color === "#27ae60" ? "#1e8449" : risk.color;
+      tipEl.innerHTML = `<strong>${risk.label}</strong> · ${tip}`;
+    }
+
+    // Track best/worst days
+    let score = 100 - code * 2 - precip;
+    if (code === 0 || code === 1) score = 100;
+    if (score > bestScore) { bestScore = score; bestDay = i; }
+    if (score < worstScore) { worstScore = score; worstDay = i; }
+  }
+
+  // --- Route risk notice ---
+  const route = window._currentRoute;
+  if (route && route.stops) {
+    const risk = getRouteWeatherRisk(route.stops, weatherData, days);
+    const noticeEl = document.getElementById("routeRiskNotice");
+    if (noticeEl && risk) {
+      noticeEl.style.display = "block";
+      const bg = risk.type === "warning" ? "#fdedec" : "#eaf2f8";
+      const border = risk.type === "warning" ? "#c0392b" : "#2980b9";
+      noticeEl.style.cssText = `padding:14px 18px;border-radius:10px;background:${bg};border-left:4px solid ${border};margin-bottom:16px;font-size:0.88rem;color:#333;`;
+      noticeEl.textContent = risk.msg;
+    }
+  }
+
+  // --- Smart swap suggestion ---
+  if (bestDay >= 0 && worstDay >= 0 && bestDay !== worstDay && Math.abs(bestDay - worstDay) <= 2) {
+    const bestCard = document.getElementById("dcard-" + bestDay);
+    const worstCard = document.getElementById("dcard-" + worstDay);
+    if (bestCard && worstCard) {
+      const bestType = classifyDay(bestCard.querySelector(".schedule").textContent);
+      const worstType = classifyDay(worstCard.querySelector(".schedule").textContent);
+      if ((bestType === "indoor" && worstType === "outdoor") || (bestType === "outdoor" && worstType === "indoor")) {
+        const swapEl = document.getElementById("wtip-" + worstDay);
+        if (swapEl) {
+          swapEl.innerHTML += `<br><span style="color:#1a5276;font-weight:600;">💡 建议：第${worstDay+1}天天气不佳，如行程灵活可与第${bestDay+1}天（${bestType==='outdoor'?'适合户外':'适合室内'}）调换</span>`;
+        }
+      }
+    }
+  }
+
+  // Update status
+  const statusEl = document.getElementById("statusWeather");
+  if (statusEl && weatherData.time.length > 0) {
+    const from = weatherData.time[0];
+    const to = weatherData.time[Math.min(days - 1, weatherData.time.length - 1)];
+    statusEl.innerHTML = `<span class="status-dot online"></span><span class="s-label">天气数据</span><span class="s-val">实时预报+智能调优 · ${from} ~ ${to}</span>`;
+  }
+}
+
+function updateWeatherFallback(days, season) {
+  const fallback = {
+    spring: { icon:"🌸", label:"春季", tMin:8, tMax:21, cls:"cloudy", tip:"春季气温宜人但偶有阵雨，带薄外套。樱花季人流量大建议早起。" },
+    summer: { icon:"☀", label:"夏季", tMin:24, tMax:34, cls:"sunny", tip:"高温闷热注意防暑，午后偶有雷阵雨。室内景点+夜游是最佳组合。" },
+    autumn: { icon:"🍂", label:"秋季", tMin:12, tMax:24, cls:"cloudy", tip:"全年最舒适季节，秋高气爽。栖霞山枫叶季人流量极大建议工作日前往。" },
+    winter: { icon:"❄", label:"冬季", tMin:-2, tMax:8, cls:"snowy", tip:"湿冷模式注意保暖，羽绒服+围巾必备。游客少、酒店便宜，适合悠闲慢游。" }
+  };
+  const fb = fallback[season] || fallback.summer;
+  for (let i = 0; i < days; i++) {
+    const el = document.getElementById("wday-" + i);
+    if (!el) continue;
+    el.innerHTML = `${fb.icon} ${fb.label} ${fb.tMin}°~${fb.tMax}°C <span style="font-size:0.7rem;">(历史均值)</span>`;
+    el.className = "weather-badge " + fb.cls;
+    el.title = "天气数据暂不可用，显示历史平均气温";
+
+    const cardEl = document.getElementById("dcard-" + i);
+    const tipEl = document.getElementById("wtip-" + i);
+    if (cardEl && tipEl) {
+      const scheduleText = cardEl.querySelector(".schedule").textContent;
+      const dayType = classifyDay(scheduleText);
+      const color = season === "winter" ? "#2980b9" : "#27ae60";
+      cardEl.style.borderLeftColor = color;
+      cardEl.style.borderLeftWidth = "5px";
+      tipEl.style.display = "block";
+      tipEl.style.background = season === "winter" ? "#eaf2f8" : "#eafaf1";
+      tipEl.style.color = "#333";
+      tipEl.innerHTML = `<strong>📊 历史均值</strong> · ${fb.tip} ${dayType === "outdoor" ? "当日行程以户外为主，请注意天气变化。" : ""}`;
+    }
+  }
+
+  const statusEl = document.getElementById("statusWeather");
+  if (statusEl) {
+    statusEl.innerHTML = '<span class="status-dot static"></span><span class="s-label">天气数据</span><span class="s-val">历史均值（离线/日期过远）</span>';
+  }
+}
+
+function resetPlan() {
+  if (mapInstance) { mapInstance.remove(); mapInstance = null; }
+  weatherCache = null;
+  const resultEl = document.getElementById("result");
+  resultEl.classList.remove("show");
+  resultEl.innerHTML = "";
+  document.getElementById("planner").scrollIntoView({behavior:"smooth"});
+}
+
+// ====== 保存为图片 ======
+function saveAsImage() {
+  var resultEl = document.getElementById("result");
+  if (!resultEl || !resultEl.classList.contains("show")) {
+    alert("请先生成攻略再保存图片！");
+    return;
+  }
+
+  var statusEl = document.getElementById("statusText");
+  if (statusEl) statusEl.textContent = "正在生成图片...";
+
+  if (typeof html2canvas === "undefined") {
+    alert("图片库加载中，请稍后再试。");
+    if (statusEl) statusEl.textContent = "系统就绪";
+    return;
+  }
+
+  // 提取结果中的关键数据
+  var title = "";
+  var h3 = resultEl.querySelector(".result-header h3");
+  if (h3) title = h3.textContent;
+  var priceTag = "";
+  var ptag = resultEl.querySelector(".price-tag");
+  if (ptag) priceTag = ptag.textContent;
+
+  // 费用明细
+  var costHTML = "";
+  var costItems = resultEl.querySelectorAll(".cost-item");
+  costItems.forEach(function(c) {
+    var num = c.querySelector(".cost-num");
+    var label = c.querySelector(".cost-label");
+    costHTML += '<div style="flex:1;min-width:70px;text-align:center;padding:10px 6px;background:#2d5a3d;border:2px solid #3a7048;">';
+    costHTML += '<div style="font-size:1.1rem;font-weight:700;color:#5dde8e;">' + (num ? num.textContent : "") + '</div>';
+    costHTML += '<div style="font-size:0.7rem;color:#90c8a0;margin-top:2px;">' + (label ? label.textContent : "") + '</div>';
+    costHTML += '</div>';
+  });
+
+  // 每日行程
+  var daysHTML = "";
+  var dayCards = resultEl.querySelectorAll(".day-card");
+  dayCards.forEach(function(card, i) {
+    var h4 = card.querySelector("h4");
+    var sched = card.querySelector(".schedule");
+    var dayCost = card.querySelector(".day-cost");
+    var dayTitle = h4 ? h4.textContent : "第" + (i+1) + "天";
+    daysHTML += '<div style="background:#2d5a3d;padding:14px 16px;margin:0 0 10px 0;border-left:5px solid #5dde8e;">';
+    daysHTML += '<div style="font-size:1rem;font-weight:700;color:#5dde8e;margin-bottom:6px;">' + dayTitle + '</div>';
+    daysHTML += '<div style="color:#e0f0e0;font-size:0.88rem;line-height:1.8;">' + (sched ? sched.innerHTML : "") + '</div>';
+    if (dayCost) {
+      daysHTML += '<div style="margin-top:8px;font-size:0.8rem;color:#70e890;font-weight:600;">' + dayCost.textContent + '</div>';
+    }
+    daysHTML += '</div>';
+  });
+
+  // 提示
+  var tipsText = "";
+  var tipsEl = resultEl.querySelector(".result-tips");
+  if (tipsEl) tipsText = tipsEl.textContent;
+
+  // 天气
+  var weatherHTML = "";
+  var badges = resultEl.querySelectorAll(".weather-badge");
+  badges.forEach(function(b) {
+    weatherHTML += '<span style="display:inline-block;padding:3px 8px;font-size:0.75rem;background:#3a7048;color:#d0f0d0;border:1px solid #4a8058;margin:2px;">' + b.textContent + '</span>';
+  });
+
+  // 状态栏
+  var statusHTML = "";
+  var statusBar = resultEl.querySelector(".status-bar");
+  if (statusBar) {
+    var items = statusBar.querySelectorAll(".status-item");
+    items.forEach(function(item) {
+      statusHTML += '<span style="margin-right:12px;font-size:0.75rem;color:#a0d0b0;">' + item.textContent + '</span>';
+    });
+  }
+
+  // ---- 在 iframe 中构建完全隔离的导出视图 ----
+  var iframe = document.createElement("iframe");
+  iframe.style.cssText = "position:fixed;left:-9999px;top:0;width:750px;height:2000px;border:none;";
+  document.body.appendChild(iframe);
+
+  var doc = iframe.contentDocument || iframe.contentWindow.document;
+  doc.open();
+  doc.write('<!DOCTYPE html><html><head><meta charset="UTF-8"></head>');
+  doc.write('<body style="margin:0;padding:0;font-family:\'Microsoft YaHei\',\'PingFang SC\',sans-serif;background:#1a2e1a;">');
+
+  // 标题头
+  doc.write('<div style="text-align:center;padding:28px 16px;background:#0d1a0d;">');
+  doc.write('<div style="font-size:1.5rem;font-weight:700;color:#5dde8e;letter-spacing:4px;">🎒 南京穷游攻略 · 大学生版</div>');
+  doc.write('<div style="font-size:0.8rem;color:#7aaa7a;margin-top:6px;">人均500玩转金陵 | ' + new Date().toLocaleDateString("zh-CN") + '</div>');
+  doc.write('</div>');
+
+  // 内容区
+  doc.write('<div style="padding:16px;background:#1a2e1a;">');
+
+  // 行程标题 + 价格
+  doc.write('<div style="display:flex;justify-content:space-between;align-items:center;padding:16px 18px;margin-bottom:12px;background:#243b24;flex-wrap:wrap;gap:8px;">');
+  doc.write('<div style="font-size:1.15rem;font-weight:700;color:#fff;">' + title + '</div>');
+  doc.write('<div style="font-size:1.3rem;font-weight:700;color:#5dde8e;">' + priceTag + '</div>');
+  doc.write('</div>');
+
+  // 状态栏
+  if (statusHTML) {
+    doc.write('<div style="padding:8px 16px;margin-bottom:12px;background:#243b24;border:1px solid #345034;">' + statusHTML + '</div>');
+  }
+
+  // 天气
+  if (weatherHTML) {
+    doc.write('<div style="margin-bottom:12px;line-height:2;">' + weatherHTML + '</div>');
+  }
+
+  // 费用
+  doc.write('<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">' + costHTML + '</div>');
+
+  // 每日行程
+  doc.write(daysHTML);
+
+  // 提示
+  if (tipsText) {
+    doc.write('<div style="padding:12px 16px;background:#243b24;font-size:0.82rem;color:#c0e0c0;border-left:4px solid #5dde8e;line-height:1.7;">' + tipsText + '</div>');
+  }
+
+  doc.write('</div>');
+
+  // 底部
+  doc.write('<div style="text-align:center;padding:12px;font-size:0.7rem;color:#6a8a6a;background:#0d1a0d;border-top:2px solid #5dde8e;">');
+  doc.write('南京穷游攻略 · 大学生版 | 数据仅供参考 | 学生证随身携带');
+  doc.write('</div>');
+
+  doc.write('</body></html>');
+  doc.close();
+
+  // 等 iframe 渲染完成后截图
+  setTimeout(function() {
+    html2canvas(doc.body, {
+      backgroundColor: "#1a2e1a",
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      logging: false
+    }).then(function(canvas) {
+      document.body.removeChild(iframe);
+
+      var link = document.createElement("a");
+      link.download = "南京穷游攻略_" + new Date().toISOString().slice(0,10) + ".png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+
+      if (statusEl) statusEl.textContent = "图片已保存";
+      setTimeout(function() {
+        if (statusEl) statusEl.textContent = "系统就绪";
+      }, 2000);
+    }).catch(function(err) {
+      console.warn("截图失败:", err);
+      document.body.removeChild(iframe);
+      if (statusEl) statusEl.textContent = "截图失败，请用打印功能";
+      alert("截图失败，请尝试使用「🖨 打印攻略 → 另存为PDF」替代。");
+    });
+  }, 300);
+}
+
+// Quick plan from route cards
+function quickPlan(days,budget,interest) {
+  document.getElementById("days").value = days;
+  document.getElementById("budget").value = budget;
+  document.getElementById("interest").value = interest;
+  generatePlan();
+}
+
+// Set default date to today
+(function() {
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+  const dateInput = document.getElementById("startDate");
+  if (dateInput) dateInput.value = yyyy + '-' + mm + '-' + dd;
+})();
+</script>
+
+</body>
+</html>
