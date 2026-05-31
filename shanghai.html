@@ -150,10 +150,26 @@ section:nth-child(odd) { background: var(--warm-bg); }
 .nav-logo {
   font-size: 1.3rem;
   font-weight: 700;
-  color: #6b2025;
+  color: #6b2025; text-decoration: none; text-decoration: none;
   font-family: var(--font-serif);
   letter-spacing: 2px;
 }
+	.nav-logo:hover { color: #8b3035; }
+
+	.nav-city-switch {
+	  margin-left: 12px;
+	  padding-left: 12px;
+	  border-left: 2px solid rgba(0,0,0,0.08);
+	  display: flex;
+	  gap: 4px;
+	  align-items: center;
+	}
+	.nav-city-switch a {
+	  font-size: 0.78rem !important;
+	  padding: 3px 6px !important;
+	  border-radius: 4px;
+	}
+	.nav-city-switch a:hover { background: rgba(0,0,0,0.04); }
 
 .nav-links {
   display: flex;
@@ -170,7 +186,7 @@ section:nth-child(odd) { background: var(--warm-bg); }
   font-weight: 500;
 }
 .nav-links a:hover, .nav-links a.active {
-  color: #6b2025;
+  color: #6b2025; text-decoration: none; text-decoration: none;
   background: rgba(107,32,37,0.06);
 }
 
@@ -311,7 +327,7 @@ section:nth-child(odd) { background: var(--warm-bg); }
   display: inline-block;
   background: #fff;
   border: 2px solid #6b2025;
-  color: #6b2025;
+  color: #6b2025; text-decoration: none; text-decoration: none;
   padding: 0.5rem 1.8rem;
   border-radius: 50px;
   font-size: 0.82rem;
@@ -325,7 +341,7 @@ section:nth-child(odd) { background: var(--warm-bg); }
   margin-bottom: 0.5rem;
   font-family: var(--font-serif);
   letter-spacing: 8px;
-  color: #6b2025;
+  color: #6b2025; text-decoration: none; text-decoration: none;
   line-height: 1.1;
 }
 .hero-subtitle {
@@ -362,7 +378,7 @@ section:nth-child(odd) { background: var(--warm-bg); }
 .hero-stat .num {
   font-size: 2.2rem;
   font-weight: 800;
-  color: #6b2025;
+  color: #6b2025; text-decoration: none; text-decoration: none;
   line-height: 1;
 }
 .hero-stat .label {
@@ -415,7 +431,7 @@ section:nth-child(odd) { background: var(--warm-bg); }
 }
 .btn-outline {
   background: transparent;
-  color: #6b2025;
+  color: #6b2025; text-decoration: none; text-decoration: none;
   border: 2px solid #6b2025;
 }
 .btn-outline:hover {
@@ -521,7 +537,7 @@ section:nth-child(odd) { background: var(--warm-bg); }
 }
 .form-group select:focus, .form-group input:focus {
   outline: none;
-  border-color: #6b2025;
+  border-color: #6b2025; text-decoration: none; text-decoration: none;
   box-shadow: 0 0 0 3px rgba(107,32,37,0.1);
 }
 
@@ -589,7 +605,7 @@ section:nth-child(odd) { background: var(--warm-bg); }
   border-radius: 10px;
   border: 1px solid #e8e0d5;
 }
-.cost-item .cost-num { font-size: 1.15rem; font-weight: 700; color: #6b2025; }
+.cost-item .cost-num { font-size: 1.15rem; font-weight: 700; color: #6b2025; text-decoration: none; text-decoration: none; }
 .cost-item .cost-label { font-size: 0.75rem; color: #888; margin-top: 2px; }
 
 .day-card {
@@ -600,7 +616,7 @@ section:nth-child(odd) { background: var(--warm-bg); }
   border-left: 5px solid #6b2025;
 }
 .day-card:first-of-type { margin-top: 20px; }
-.day-card h4 { font-size: 1rem; color: #6b2025; margin-bottom: 8px; font-weight: 700; }
+.day-card h4 { font-size: 1rem; color: #6b2025; text-decoration: none; text-decoration: none; margin-bottom: 8px; font-weight: 700; }
 .day-card .schedule { color: #373749; font-size: 0.9rem; line-height: 1.8; }
 .day-card .day-cost { margin-top: 10px; font-size: 0.82rem; color: #c9a87c; font-weight: 600; display: flex; flex-wrap: wrap; gap: 12px; }
 
@@ -619,7 +635,7 @@ section:nth-child(odd) { background: var(--warm-bg); }
 .btn-reset {
   padding: 10px 20px;
   background: transparent;
-  color: #6b2025;
+  color: #6b2025; text-decoration: none; text-decoration: none;
   border: 2px solid #6b2025;
   border-radius: 8px;
   font-size: 0.88rem;
@@ -1383,7 +1399,7 @@ section:nth-child(odd) { background: var(--warm-bg); }
 ============================================ -->
 <nav class="nav" id="nav">
   <div class="nav-inner">
-    <div class="nav-logo">上海攻略</div>
+    <a href="index.html" class="nav-logo">🌆 上海攻略</a>
     <button class="nav-toggle" id="navToggle" aria-label="菜单">
       <span></span><span></span><span></span>
     </button>
@@ -1397,12 +1413,12 @@ section:nth-child(odd) { background: var(--warm-bg); }
       <li><a href="#food">美食</a></li>
       <li><a href="#transport">交通</a></li>
       <li><a href="#faq">常见问题</a></li>
-	      <li style="margin-left:12px;padding-left:12px;border-left:2px solid rgba(0,0,0,0.1);">
-	      <a href="index.html" style="color:#888;">🏠 首页</a>
-	        <a href="tibet.html" style="color:#c0392b;">🏔 西藏</a>
-	        <a href="nanjing.html" style="color:#1a5276;margin-left:6px;">🏯 南京</a>
-	        <a href="nanjing_student.html" style="color:#27ae60;margin-left:6px;">🎒 南京穷游</a>
-	      </li>
+      <li class="nav-city-switch">
+        <a href="index.html">🏠 首页</a>
+        <a href="tibet.html">🏔 西藏</a>
+        <a href="nanjing.html">🏯 南京</a>
+        <a href="nanjing_student.html">🎒 南京穷游</a>
+      </li>
     </ul>
   </div>
 </nav>
